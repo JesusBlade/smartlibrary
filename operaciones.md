@@ -178,6 +178,6 @@ http://localhost:8080/api/biblioteca/uso/50/120/100/200
 
 ## 👨‍💻 Autor
 
-Proyecto desarrollado como práctica de backend con Spring Boot.
+Jesus Laura
 
 
