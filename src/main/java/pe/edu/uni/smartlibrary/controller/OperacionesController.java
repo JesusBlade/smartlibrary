@@ -38,7 +38,7 @@ public class OperacionesController {
             total = total / 2;
         }
 
-        return ResponseEntity.ok("Total multa: " + total);
+        return ResponseEntity.ok("La respuesta es: " + total);
     }
     
     // 2. Calcular días lectura
@@ -55,7 +55,7 @@ public class OperacionesController {
 
         double dias = (double) totalPaginas / paginasPorDia;
 
-        String resultado = "Días de lectura: " + dias;
+        String resultado = "La respuesta es:" + dias;
         return ResponseEntity.ok(resultado);
     }
 
@@ -73,7 +73,7 @@ public class OperacionesController {
 
         double libros = (double) (paginasPorDia * diasLecturaMes) / paginasPorLibro;
 
-        String resultado = "Libros por mes: " + libros + ", concentración: " + nivelConcentracion;
+        String resultado = "La respuesta es:" + libros + ", concentración: " + nivelConcentracion;
         return ResponseEntity.ok(resultado);
     }
 
@@ -95,7 +95,7 @@ public class OperacionesController {
 
         int disponibles = totalEjemplares - prestados - reservados - enMantenimiento;
 
-        String resultado = "Disponibles: " + disponibles;
+        String resultado = "La respuesta es:" + disponibles;
         return ResponseEntity.ok(resultado);
     }
 
@@ -109,7 +109,7 @@ public class OperacionesController {
 
         int puntaje = (librosLeidos * 2) + entregasATiempo - (retrasos * 2) - multasPagadas;
 
-        String resultado = "Puntaje final: " + puntaje;
+        String resultado = "La respuesta es: " + puntaje;
         return ResponseEntity.ok(resultado);
     }
 
@@ -127,7 +127,7 @@ public class OperacionesController {
         if (retrasosPrevios > 3) dias -= 2;
         if (dias < 1) dias = 1;
 
-        String resultado = "Días devolución: " + dias;
+        String resultado = "La respuesta es: " + dias;
         return ResponseEntity.ok(resultado);
     }
 
@@ -141,7 +141,7 @@ public class OperacionesController {
 
         double progreso = (double) (paginasLeidas * 100) / totalPaginas;
 
-        String resultado = "Progreso: " + progreso + "%";
+        String resultado = "La respuesta es:" + progreso + "%";
         return ResponseEntity.ok(resultado);
     }
 
@@ -155,7 +155,7 @@ public class OperacionesController {
 
         double uso = (double) (librosPrestados * 100) / capacidadLibros;
 
-        String resultado = "Uso biblioteca: " + uso + "%";
+        String resultado = "La respuesta es:" + uso + "%";
         return ResponseEntity.ok(resultado);
     }
 }

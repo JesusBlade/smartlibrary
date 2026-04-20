@@ -1,5 +1,4 @@
 package pe.edu.uni.smartlibrary.controller;
-
 import org.springframework.web.bind.annotation.*;
 import pe.edu.uni.smartlibrary.model.Prestamo;
 
