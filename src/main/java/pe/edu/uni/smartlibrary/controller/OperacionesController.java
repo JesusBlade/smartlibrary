@@ -1,9 +1,12 @@
 package pe.edu.uni.smartlibrary.controller;
-
+import java.util.Map;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+
 
 @RestController
 @RequestMapping("/api")
@@ -16,17 +19,18 @@ public class OperacionesController {
 
     // 1. Calcular multa por retraso
     @GetMapping("/multa/calcular/{diasRetraso}/{costoPorDia}/{diasGracia}/{tipoUsuario}")
-    public String calcularMulta(
-            @PathVariable(name = "diasRetraso") int diasRetraso,
-            @PathVariable(name = "costoPorDia") double costoPorDia,
-            @PathVariable(name = "diasGracia") int diasGracia,
-            @PathVariable(name = "tipoUsuario") String tipoUsuario) {
+    public ResponseEntity<Object> calcularMulta(
+            @PathVariable("diasRetraso") int diasRetraso,
+            @PathVariable("costoPorDia") double costoPorDia,
+            @PathVariable("diasGracia") int diasGracia,
+            @PathVariable("tipoUsuario") String tipoUsuario) {
+
+        if (diasRetraso < 0 || costoPorDia < 0) {
+            return ResponseEntity.badRequest().body("Datos inválidos");
+        }
 
         int diasConMulta = diasRetraso - diasGracia;
-
-        if (diasConMulta < 0) {
-            diasConMulta = 0;
-        }
+        if (diasConMulta < 0) diasConMulta = 0;
 
         double total = diasConMulta * costoPorDia;
 
@@ -34,90 +38,124 @@ public class OperacionesController {
             total = total / 2;
         }
 
-        return String.valueOf(total);
+        return ResponseEntity.ok("Total multa: " + total);
     }
-
-    // 2. Calcular días necesarios para leer un libro
+    
+    // 2. Calcular días lectura
     @GetMapping("/lectura/dias/{totalPaginas}/{paginasPorDia}/{dificultad}/{horasDisponibles}")
-    public String calcularDiasLectura(
-            @PathVariable(name = "totalPaginas") int totalPaginas,
-            @PathVariable(name = "paginasPorDia") int paginasPorDia,
-            @PathVariable(name = "dificultad") int dificultad,
-            @PathVariable(name = "horasDisponibles") double horasDisponibles) {
+    public ResponseEntity<Object> calcularDiasLectura(
+            @PathVariable("totalPaginas") int totalPaginas,
+            @PathVariable("paginasPorDia") int paginasPorDia,
+            @PathVariable("dificultad") int dificultad,
+            @PathVariable("horasDisponibles") double horasDisponibles) {
+
+        if (totalPaginas <= 0 || paginasPorDia <= 0) {
+            return ResponseEntity.badRequest().body("Datos inválidos");
+        }
 
         double dias = (double) totalPaginas / paginasPorDia;
-        return "<h3>La respuesta es: </h3>"+ String.valueOf(dias);
+
+        String resultado = "Días de lectura: " + dias;
+        return ResponseEntity.ok(resultado);
     }
 
-    // 3. Calcular libros que puede leer en un mes
+    // 3. Libros por mes
     @GetMapping("/lectura/libros-mes/{paginasPorLibro}/{paginasPorDia}/{diasLecturaMes}/{nivelConcentracion}")
-    public String calcularLibrosMes(
-            @PathVariable(name = "paginasPorLibro") int paginasPorLibro,
-            @PathVariable(name = "paginasPorDia") int paginasPorDia,
-            @PathVariable(name = "diasLecturaMes") int diasLecturaMes,
-            @PathVariable(name = "nivelConcentracion") double nivelConcentracion) {
+    public ResponseEntity<Object> calcularLibrosMes(
+            @PathVariable("paginasPorLibro") int paginasPorLibro,
+            @PathVariable("paginasPorDia") int paginasPorDia,
+            @PathVariable("diasLecturaMes") int diasLecturaMes,
+            @PathVariable("nivelConcentracion") double nivelConcentracion) {
+
+        if (paginasPorLibro <= 0 || paginasPorDia <= 0 || diasLecturaMes <= 0) {
+            return ResponseEntity.badRequest().body("Datos inválidos");
+        }
 
         double libros = (double) (paginasPorDia * diasLecturaMes) / paginasPorLibro;
-        return "<h3>La respuesta es: </h3>"+ String.valueOf(libros);
+
+        String resultado = "Libros por mes: " + libros + ", concentración: " + nivelConcentracion;
+        return ResponseEntity.ok(resultado);
     }
 
-    // 4. Calcular libros disponibles
+    // 4. Libros disponibles
     @GetMapping("/libros/disponibles/{totalEjemplares}/{prestados}/{reservados}/{enMantenimiento}")
-    public String calcularLibrosDisponibles(
-            @PathVariable(name = "totalEjemplares") int totalEjemplares,
-            @PathVariable(name = "prestados") int prestados,
-            @PathVariable(name = "reservados") int reservados,
-            @PathVariable(name = "enMantenimiento") int enMantenimiento) {
+    public ResponseEntity<Object> calcularLibrosDisponibles(
+            @PathVariable ("totalEjemplares") int totalEjemplares,
+            @PathVariable ("prestados") int prestados,
+            @PathVariable ("reservados") int reservados,
+            @PathVariable ("enMantenimiento") int enMantenimiento) {
+
+        if (totalEjemplares < 0 || prestados < 0 || reservados < 0 || enMantenimiento < 0) {
+            return ResponseEntity.badRequest().body("Datos inválidos");
+        }
+
+        if (prestados + reservados + enMantenimiento > totalEjemplares) {
+            return ResponseEntity.badRequest().body("Valores exceden total");
+        }
 
         int disponibles = totalEjemplares - prestados - reservados - enMantenimiento;
-        return "<h3>La respuesta es: </h3>"+ String.valueOf(disponibles);
+
+        String resultado = "Disponibles: " + disponibles;
+        return ResponseEntity.ok(resultado);
     }
 
-    // 5. Calcular puntaje del usuario
+    // 5. Puntaje usuario
     @GetMapping("/usuario/puntaje/{librosLeidos}/{entregasATiempo}/{retrasos}/{multasPagadas}")
-    public String calcularPuntajeUsuario(
-            @PathVariable(name = "librosLeidos") int librosLeidos,
-            @PathVariable(name = "entregasATiempo") int entregasATiempo,
-            @PathVariable(name = "retrasos") int retrasos,
-            @PathVariable(name = "multasPagadas") int multasPagadas) {
+    public ResponseEntity<Object> calcularPuntajeUsuario(
+            @PathVariable ("librosLeidos") int librosLeidos,
+            @PathVariable ("entregasATiempo") int entregasATiempo,
+            @PathVariable ("retrasos") int retrasos,
+            @PathVariable ("multasPagadas") int multasPagadas) {
 
-        int puntaje = librosLeidos - retrasos;
-        return "<h3>La respuesta es: </h3>"+ String.valueOf(puntaje);
+        int puntaje = (librosLeidos * 2) + entregasATiempo - (retrasos * 2) - multasPagadas;
+
+        String resultado = "Puntaje final: " + puntaje;
+        return ResponseEntity.ok(resultado);
     }
 
-    // 6. Calcular días de devolución
+    // 6. Días devolución
     @GetMapping("/prestamo/dias-devolucion/{diasBase}/{diasExtra}/{tipoUsuario}/{retrasosPrevios}")
-    public String calcularDiasDevolucion(
-            @PathVariable(name = "diasBase") int diasBase,
-            @PathVariable(name = "diasExtra") int diasExtra,
-            @PathVariable(name = "tipoUsuario") String tipoUsuario,
-            @PathVariable(name = "retrasosPrevios") int retrasosPrevios) {
+    public ResponseEntity<Object> calcularDiasDevolucion(
+            @PathVariable ("diasBase") int diasBase,
+            @PathVariable ("diasExtra") int diasExtra,
+            @PathVariable ("tipoUsuario") String tipoUsuario,
+            @PathVariable ("retrasosPrevios") int retrasosPrevios) {
 
         int dias = diasBase + diasExtra;
-        return "<h3>La respuesta es: </h3>"+ String.valueOf(dias);
+
+        if (tipoUsuario.equalsIgnoreCase("DOCENTE")) dias += 2;
+        if (retrasosPrevios > 3) dias -= 2;
+        if (dias < 1) dias = 1;
+
+        String resultado = "Días devolución: " + dias;
+        return ResponseEntity.ok(resultado);
     }
 
-    // 7. Calcular progreso de lectura
+    // 7. Progreso lectura
     @GetMapping("/lectura/progreso/{paginasLeidas}/{totalPaginas}/{diasTranscurridos}/{diasPlaneados}")
-    public String calcularProgresoLectura(
-            @PathVariable(name = "paginasLeidas") int paginasLeidas,
-            @PathVariable(name = "totalPaginas") int totalPaginas,
-            @PathVariable(name = "diasTranscurridos") int diasTranscurridos,
-            @PathVariable(name = "diasPlaneados") int diasPlaneados) {
+    public ResponseEntity<Object> calcularProgresoLectura(
+            @PathVariable ("paginasLeidas") int paginasLeidas,
+            @PathVariable ("totalPaginas") int totalPaginas,
+            @PathVariable ("diasTranscurridos") int diasTranscurridos,
+            @PathVariable ("diasPlaneados") int diasPlaneados) {
 
         double progreso = (double) (paginasLeidas * 100) / totalPaginas;
-        return "<h3>La respuesta es: </h3>"+ String.valueOf(progreso);
+
+        String resultado = "Progreso: " + progreso + "%";
+        return ResponseEntity.ok(resultado);
     }
 
-    // 8. Calcular nivel de uso de la biblioteca
+    // 8. Uso biblioteca
     @GetMapping("/biblioteca/uso/{usuariosActivos}/{librosPrestados}/{capacidadUsuarios}/{capacidadLibros}")
-    public String calcularUsoBiblioteca(
-            @PathVariable(name = "usuariosActivos") int usuariosActivos,
-            @PathVariable(name = "librosPrestados") int librosPrestados,
-            @PathVariable(name = "capacidadUsuarios") int capacidadUsuarios,
-            @PathVariable(name = "capacidadLibros") int capacidadLibros) {
+    public ResponseEntity<Object> calcularUsoBiblioteca(
+            @PathVariable ("usuariosActivos") int usuariosActivos,
+            @PathVariable ("librosPrestados") int librosPrestados,
+            @PathVariable ("capacidadUsuarios") int capacidadUsuarios,
+            @PathVariable ("capacidadLibros") int capacidadLibros) {
 
         double uso = (double) (librosPrestados * 100) / capacidadLibros;
-        return "<h3>La respuesta es: </h3>"+ String.valueOf(uso);
+
+        String resultado = "Uso biblioteca: " + uso + "%";
+        return ResponseEntity.ok(resultado);
     }
 }
