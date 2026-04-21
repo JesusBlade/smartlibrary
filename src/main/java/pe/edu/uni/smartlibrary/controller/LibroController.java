@@ -3,6 +3,7 @@ package pe.edu.uni.smartlibrary.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pe.edu.uni.smartlibrary.model.Libro;
 
@@ -10,54 +11,75 @@ import pe.edu.uni.smartlibrary.model.Libro;
 @RequestMapping("/libros")
 public class LibroController {
 
-	// Simula la consulta de un libro específico en la biblioteca
-	@GetMapping("/{id}")
-	public Libro obtener(@PathVariable("id") int id) {
-
-	    Libro l = new Libro();
-	    l.setId(id);
-	    l.setTitulo("Libro " + id);
-	    l.setAutor("Autor X");
-	    l.setPaginas(200);
-
-	    return l;
-	}
 	
-	// Retorna una lista simulada de libros disponibles en la biblioteca
-	@GetMapping
-	public List<Libro> listar() {
-	    List<Libro> lista = new ArrayList<>();
+	// lista en memoria
+    private List<Libro> lista = new ArrayList<>();
 
-	    Libro l1 = new Libro();
-	    l1.setId(1);
-	    l1.setTitulo("Java Básico");
-	    l1.setAutor("Autor 1");
-	    l1.setPaginas(150);
+    // OBTENER POR ID
+    @GetMapping("/{id}")
+    public ResponseEntity<Libro> obtener(@PathVariable("id") int id) {
+        for (Libro l : lista) {
+            if (l.getId() == id) {
+                return ResponseEntity.ok(l); // 200
+            }
+        }
+        return ResponseEntity.notFound().build(); // 404
+    }
 
-	    lista.add(l1);
+    // LISTAR
+    @GetMapping
+    public ResponseEntity<List<Libro>> listar() {
+        if (lista.isEmpty()) {
+            return ResponseEntity.noContent().build(); // 204
+        }
+        return ResponseEntity.ok(lista);
+    }
 
-	    return lista;
-	}
-	
-	// Registrar un nuevo libro
-	@PostMapping
-	public Libro registrar(@RequestBody Libro libro) {
-	    libro.setId((int)(Math.random() * 1000));
-	    return libro;
-	}
-	
-	// Actualizar un libro existente
-	@PutMapping("/{id}")
-	public Libro actualizar(@PathVariable("id") int id, @RequestBody Libro libro) {
-	    libro.setId(id);
-	    return libro;
-	}
-	
-	// Eliminar un libro por ID
+    // REGISTRAR
+    @PostMapping
+    public ResponseEntity<?> registrar(@RequestBody Libro libro) {
 
-	@DeleteMapping("/{id}")
-	public String eliminar(@PathVariable("id") int id) {
-	    return "Libro eliminado: " + id;
-	}
+        if (libro.getPaginas() <= 0) {
+            return ResponseEntity.badRequest().body("Páginas inválidas"); // ✔️
+        }
+
+        libro.setId(lista.size() + 1);
+        lista.add(libro);
+
+        return ResponseEntity.status(201).body(libro);
+    }
+
+    // ACTUALIZAR
+    @PutMapping("/{id}")
+    public ResponseEntity<Libro> actualizar(@PathVariable("id") int id, @RequestBody Libro libro) {
+
+        // 🔥 VALIDACIÓN
+        if (libro.getPaginas() <= 0) {
+            return ResponseEntity.badRequest().build(); // 400
+        }
+
+        for (Libro l : lista) {
+            if (l.getId() == id) {
+                l.setTitulo(libro.getTitulo());
+                l.setAutor(libro.getAutor());
+                l.setPaginas(libro.getPaginas());
+                return ResponseEntity.ok(l); // 200
+            }
+        }
+
+        return ResponseEntity.notFound().build(); // 404
+    }
+
+    // ELIMINAR
+    @DeleteMapping("/{id}")
+    public ResponseEntity <String> eliminar(@PathVariable("id") int id) {
+    	boolean eliminado = lista.removeIf(libro -> libro.getId() == id);
+
+        if (eliminado) {
+            return ResponseEntity.ok("Libro eliminado: " + id);
+        }
+
+        return ResponseEntity.notFound().build(); // 404
+    }
 }
 
