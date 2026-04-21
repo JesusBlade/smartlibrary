@@ -5,6 +5,9 @@ public class Prestamo {
     private String libro;
     private String usuario;
     private int dias;
+    
+    public Prestamo() {
+    }
 
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }

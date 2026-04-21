@@ -5,6 +5,9 @@ public class Libro {
     private String titulo;
     private String autor;
     private int paginas;
+    
+    public Libro() {
+    }
 
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
