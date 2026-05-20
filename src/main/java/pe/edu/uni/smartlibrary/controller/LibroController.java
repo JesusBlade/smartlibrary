@@ -53,7 +53,7 @@ public class LibroController {
     @PutMapping("/{id}")
     public ResponseEntity<Libro> actualizar(@PathVariable("id") int id, @RequestBody Libro libro) {
 
-        // 🔥 VALIDACIÓN
+        // VALIDACIÓN
         if (libro.getPaginas() <= 0) {
             return ResponseEntity.badRequest().build(); // 400
         }
