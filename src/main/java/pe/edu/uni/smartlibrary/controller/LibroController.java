@@ -57,7 +57,9 @@ public class LibroController {
     
     // ACTUALIZAR LIBRO
     @PutMapping("/{id}")
-    public ResponseEntity<?> actualizar(@PathVariable Long id, @RequestBody Libro libro) {
+    public ResponseEntity<Libro> actualizar(@PathVariable("id") int id, @RequestBody Libro libro) {
+
+        // VALIDACIÓN
         if (libro.getPaginas() <= 0) {
             return ResponseEntity.badRequest().body("La cantidad de páginas debe ser mayor a 0");
         }
