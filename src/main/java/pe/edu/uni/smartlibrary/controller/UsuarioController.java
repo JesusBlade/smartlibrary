@@ -1,7 +1,6 @@
 package pe.edu.uni.smartlibrary.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,7 +18,7 @@ import pe.edu.uni.smartlibrary.model.Usuario;
 import pe.edu.uni.smartlibrary.repository.RepositoryUsuario;
 
 @RestController
-@RequestMapping("/usuarios")
+@RequestMapping("/usuario")
 public class UsuarioController {
 
     @Autowired
@@ -33,7 +32,7 @@ public class UsuarioController {
 
     // OBTENER USUARIO POR ID
     @GetMapping("/{id}")
-    public ResponseEntity<Usuario> obtener(@PathVariable Long id) {
+    public ResponseEntity<Usuario> obtener(@PathVariable("id") Long id) {
         Usuario usuario = repo.findById(id).orElse(null);
 
         if (usuario == null) {
@@ -46,28 +45,35 @@ public class UsuarioController {
     // REGISTRAR NUEVO USUARIO
     @PostMapping
     public ResponseEntity<?> registrar(@RequestBody Usuario usuario) {
-        if (usuario.getPuntos() < 0) {
-            return ResponseEntity.badRequest().body("Los puntos no pueden ser negativos");
+        if (usuario.getUser() == null || usuario.getUser().trim().isEmpty()) {
+            return ResponseEntity.badRequest().body("El user no puede estar vacío");
         }
-        
+        if (usuario.getPassword() == null || usuario.getPassword().trim().isEmpty()) {
+            return ResponseEntity.badRequest().body("El password no puede estar vacío");
+        }
+
         Usuario guardado = repo.save(usuario);
         return ResponseEntity.status(HttpStatus.CREATED).body(guardado);
     }
 
     // ACTUALIZAR USUARIO
     @PutMapping("/{id}")
-    public ResponseEntity<?> actualizar(@PathVariable Long id, @RequestBody Usuario usuario) {
-        if (usuario.getPuntos() < 0) {
-            return ResponseEntity.badRequest().body("Los puntos no pueden ser negativos");
+    public ResponseEntity<?> actualizar(@PathVariable("id") Long id, @RequestBody Usuario usuario) {
+        // VALIDACIÓN
+        if (usuario.getUser() == null || usuario.getUser().trim().isEmpty()) {
+            return ResponseEntity.badRequest().body("El user no puede estar vacío");
+        }
+        if (usuario.getPassword() == null || usuario.getPassword().trim().isEmpty()) {
+            return ResponseEntity.badRequest().body("El password no puede estar vacío");
         }
 
-        Optional<Usuario> usuarioOpt = repo.findById(id);
-        if (usuarioOpt.isPresent()) {
-            Usuario actual = usuarioOpt.get();
-            actual.setNombre(usuario.getNombre());
-            actual.setTipo(usuario.getTipo());
-            actual.setPuntos(usuario.getPuntos());
-            
+        Usuario actual = repo.findById(id).orElse(null);
+        if (actual != null) {
+            actual.setIdPersona(usuario.getIdPersona());
+            actual.setUser(usuario.getUser());
+            actual.setPassword(usuario.getPassword());
+            actual.setTipoUsuario(usuario.getTipoUsuario());
+
             Usuario actualizado = repo.save(actual);
             return ResponseEntity.ok(actualizado);
         } else {
@@ -77,7 +83,7 @@ public class UsuarioController {
 
     // ELIMINAR USUARIO
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminar(@PathVariable Long id) {
+    public ResponseEntity<Void> eliminar(@PathVariable("id") Long id) {
         if (repo.existsById(id)) {
             repo.deleteById(id);
             return ResponseEntity.noContent().build();

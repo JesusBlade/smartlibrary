@@ -7,5 +7,6 @@ import pe.edu.uni.smartlibrary.model.Usuario;
 
 @Repository
 public interface RepositoryUsuario extends JpaRepository<Usuario, Long> {
-    
+	
+	public Usuario findByUser(String user);
 }

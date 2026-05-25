@@ -11,31 +11,29 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc(addFilters = false)
-public class LibroControllerTest {
+public class UsuarioControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     // LISTAR → 200
     @Test
-    void listar_conLibros_deberiaRetornar200() throws Exception {
-        mockMvc.perform(get("/libro"))
+    void listar_conUsuarios_deberiaRetornar200() throws Exception {
+        mockMvc.perform(get("/usuario"))
                 .andExpect(status().isOk());
     }
 
-    // CREAR LIBRO → 201
+    // CREAR USUARIO → 201
     @Test
-    void registrar_libroValido_deberiaRetornar201() throws Exception {
-        mockMvc.perform(post("/libro")
+    void registrar_usuarioValido_deberiaRetornar201() throws Exception {
+        mockMvc.perform(post("/usuario")
                 .contentType("application/json")
                 .content("""
                     {
-                      "idAutor": 1,
-                      "idCategoria": 1,
-                      "titulo": "Libro Test",
-                      "editorial": "Test",
-                      "paginas": 100,
-                      "lanzamiento": 2020
+                      "idPersona": 1,
+                      "user": "admin",
+                      "password": "123",
+                      "tipoUsuario": "ADMIN"
                     }
                 """))
             .andExpect(status().isCreated());
@@ -43,17 +41,15 @@ public class LibroControllerTest {
 
     // ERROR → 400 (VALIDACIÓN)
     @Test
-    void registrar_libroPaginasInvalidas_deberiaRetornar400() throws Exception {
-        mockMvc.perform(post("/libro")
+    void registrar_usuarioInvalido_deberiaRetornar400() throws Exception {
+        mockMvc.perform(post("/usuario")
                 .contentType("application/json")
                 .content("""
                     {
-                      "idAutor": 1,
-                      "idCategoria": 1,
-                      "titulo": "Error",
-                      "editorial": "Test",
-                      "paginas": 0,
-                      "lanzamiento": 2020
+                      "idPersona": 1,
+                      "user": "",
+                      "password": "123",
+                      "tipoUsuario": "ADMIN"
                     }
                 """))
             .andExpect(status().isBadRequest());
@@ -61,8 +57,8 @@ public class LibroControllerTest {
 
     // NO EXISTE → 404
     @Test
-    void obtener_libroNoExiste_deberiaRetornar404() throws Exception {
-        mockMvc.perform(get("/libro/999"))
+    void obtener_usuarioNoExiste_deberiaRetornar404() throws Exception {
+        mockMvc.perform(get("/usuario/999"))
                 .andExpect(status().isNotFound());
     }
 }

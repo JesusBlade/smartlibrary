@@ -1,7 +1,6 @@
 package pe.edu.uni.smartlibrary.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,7 +18,7 @@ import pe.edu.uni.smartlibrary.model.Prestamo;
 import pe.edu.uni.smartlibrary.repository.RepositoryPrestamo;
 
 @RestController
-@RequestMapping("/prestamos")
+@RequestMapping("/prestamo")
 public class PrestamoController {
 
     @Autowired
@@ -33,7 +32,7 @@ public class PrestamoController {
 
     // OBTENER PRESTAMO POR ID
     @GetMapping("/{id}")
-    public ResponseEntity<Prestamo> obtener(@PathVariable Long id) {
+    public ResponseEntity<Prestamo> obtener(@PathVariable("id") Long id) {
         Prestamo prestamo = repo.findById(id).orElse(null);
 
         if (prestamo == null) {
@@ -46,28 +45,37 @@ public class PrestamoController {
     // REGISTRAR NUEVO PRESTAMO
     @PostMapping
     public ResponseEntity<?> registrar(@RequestBody Prestamo prestamo) {
-        if (prestamo.getDias() <= 0) {
-            return ResponseEntity.badRequest().body("La cantidad de días debe ser mayor a 0");
+        if (prestamo.getMulta() < 0) {
+            return ResponseEntity.badRequest().body("La multa debe ser mayor o igual a 0");
         }
-        
+        if (prestamo.getIdUsuario() == null || prestamo.getIdPersona() == null || prestamo.getIdLibro() == null) {
+            return ResponseEntity.badRequest().body("Los IDs de usuario, persona y libro no pueden ser nulos");
+        }
+
         Prestamo guardado = repo.save(prestamo);
         return ResponseEntity.status(HttpStatus.CREATED).body(guardado);
     }
 
     // ACTUALIZAR PRESTAMO
     @PutMapping("/{id}")
-    public ResponseEntity<?> actualizar(@PathVariable Long id, @RequestBody Prestamo prestamo) {
-        if (prestamo.getDias() <= 0) {
-            return ResponseEntity.badRequest().body("La cantidad de días debe ser mayor a 0");
+    public ResponseEntity<?> actualizar(@PathVariable("id") Long id, @RequestBody Prestamo prestamo) {
+        // VALIDACIÓN
+        if (prestamo.getMulta() < 0) {
+            return ResponseEntity.badRequest().body("La multa debe ser mayor o igual a 0");
+        }
+        if (prestamo.getIdUsuario() == null || prestamo.getIdPersona() == null || prestamo.getIdLibro() == null) {
+            return ResponseEntity.badRequest().body("Los IDs de usuario, persona y libro no pueden ser nulos");
         }
 
-        Optional<Prestamo> prestamoOpt = repo.findById(id);
-        if (prestamoOpt.isPresent()) {
-            Prestamo actual = prestamoOpt.get();
-            actual.setLibro(prestamo.getLibro());
-            actual.setUsuario(prestamo.getUsuario());
-            actual.setDias(prestamo.getDias());
-            
+        Prestamo actual = repo.findById(id).orElse(null);
+        if (actual != null) {
+            actual.setIdUsuario(prestamo.getIdUsuario());
+            actual.setIdPersona(prestamo.getIdPersona());
+            actual.setIdLibro(prestamo.getIdLibro());
+            actual.setFechaPrestamo(prestamo.getFechaPrestamo());
+            actual.setFechaDevolucion(prestamo.getFechaDevolucion());
+            actual.setMulta(prestamo.getMulta());
+
             Prestamo actualizado = repo.save(actual);
             return ResponseEntity.ok(actualizado);
         } else {
@@ -77,7 +85,7 @@ public class PrestamoController {
 
     // ELIMINAR PRESTAMO
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminar(@PathVariable Long id) {
+    public ResponseEntity<Void> eliminar(@PathVariable("id") Long id) {
         if (repo.existsById(id)) {
             repo.deleteById(id);
             return ResponseEntity.noContent().build();

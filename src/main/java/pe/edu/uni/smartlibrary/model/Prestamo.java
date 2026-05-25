@@ -6,32 +6,45 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "prestamo")
 public class Prestamo {
-    
+
     @Id
     @SequenceGenerator(name = "seq_prestamo", sequenceName = "seq_prestamo", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_prestamo")
     private Long id;
-    
-    private String libro;
-    private String usuario;
-    private int dias;
-    
+
+    private Long idUsuario;
+    private Long idPersona;
+    private Long idLibro;
+    private LocalDate fechaPrestamo;
+    private LocalDate fechaDevolucion;
+    private double multa;
+
     public Prestamo() {
     }
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
-    public String getLibro() { return libro; }
-    public void setLibro(String libro) { this.libro = libro; }
+    public Long getIdUsuario() { return idUsuario; }
+    public void setIdUsuario(Long idUsuario) { this.idUsuario = idUsuario; }
 
-    public String getUsuario() { return usuario; }
-    public void setUsuario(String usuario) { this.usuario = usuario; }
+    public Long getIdPersona() { return idPersona; }
+    public void setIdPersona(Long idPersona) { this.idPersona = idPersona; }
 
-    public int getDias() { return dias; }
-    public void setDias(int dias) { this.dias = dias; }
+    public Long getIdLibro() { return idLibro; }
+    public void setIdLibro(Long idLibro) { this.idLibro = idLibro; }
+
+    public LocalDate getFechaPrestamo() { return fechaPrestamo; }
+    public void setFechaPrestamo(LocalDate fechaPrestamo) { this.fechaPrestamo = fechaPrestamo; }
+
+    public LocalDate getFechaDevolucion() { return fechaDevolucion; }
+    public void setFechaDevolucion(LocalDate fechaDevolucion) { this.fechaDevolucion = fechaDevolucion; }
+
+    public double getMulta() { return multa; }
+    public void setMulta(double multa) { this.multa = multa; }
 }

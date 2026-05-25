@@ -14,70 +14,66 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import pe.edu.uni.smartlibrary.model.Libro;
-import pe.edu.uni.smartlibrary.repository.RepositoryLibro;
+import pe.edu.uni.smartlibrary.model.Autor;
+import pe.edu.uni.smartlibrary.repository.RepositoryAutor;
 
 @RestController
-@RequestMapping("/libro")
-public class LibroController {
+@RequestMapping("/autores")
+public class AutorController {
 
     @Autowired
-    private RepositoryLibro repo;
+    private RepositoryAutor repo;
 
-    // LISTAR TODOS LOS LIBROS
+    // LISTAR TODOS LOS AUTORES
     @GetMapping
-    public ResponseEntity<List<Libro>> listar() {
+    public ResponseEntity<List<Autor>> listar() {
         return ResponseEntity.ok(repo.findAll());
     }
 
-    // OBTENER LIBRO POR ID
+    // OBTENER AUTOR POR ID
     @GetMapping("/{id}")
-    public ResponseEntity<Libro> obtener(@PathVariable("id") Long id) {
-        Libro libro = repo.findById(id).orElse(null);
+    public ResponseEntity<Autor> obtener(@PathVariable("id") Long id) {
+        Autor autor = repo.findById(id).orElse(null);
 
-        if (libro == null) {
+        if (autor == null) {
             return ResponseEntity.notFound().build();
         }
 
-        return ResponseEntity.ok(libro);
+        return ResponseEntity.ok(autor);
     }
 
-    // REGISTRAR NUEVO LIBRO
+    // REGISTRAR NUEVO AUTOR
     @PostMapping
-    public ResponseEntity<?> registrar(@RequestBody Libro libro) {
-        if (libro.getPaginas() <= 0) {
-            return ResponseEntity.badRequest().body("La cantidad de páginas debe ser mayor a 0");
+    public ResponseEntity<?> registrar(@RequestBody Autor autor) {
+        if (autor.getNombreAutor() == null || autor.getNombreAutor().trim().isEmpty()) {
+            return ResponseEntity.badRequest().body("El nombre del autor no puede estar vacío");
         }
-        
-        Libro guardado = repo.save(libro);
+
+        Autor guardado = repo.save(autor);
         return ResponseEntity.status(HttpStatus.CREATED).body(guardado);
     }
 
-    // ACTUALIZAR LIBRO
+    // ACTUALIZAR AUTOR
     @PutMapping("/{id}")
-    public ResponseEntity<?> actualizar(@PathVariable("id") Long id, @RequestBody Libro libro) {
+    public ResponseEntity<?> actualizar(@PathVariable("id") Long id, @RequestBody Autor autor) {
         // VALIDACIÓN
-        if (libro.getPaginas() <= 0) {
-            return ResponseEntity.badRequest().body("La cantidad de páginas debe ser mayor a 0");
+        if (autor.getNombreAutor() == null || autor.getNombreAutor().trim().isEmpty()) {
+            return ResponseEntity.badRequest().body("El nombre del autor no puede estar vacío");
         }
 
-        Libro actual = repo.findById(id).orElse(null);
+        Autor actual = repo.findById(id).orElse(null);
         if (actual != null) {
-            actual.setIdAutor(libro.getIdAutor());
-            actual.setIdCategoria(libro.getIdCategoria());
-            actual.setTitulo(libro.getTitulo());
-            actual.setEditorial(libro.getEditorial());
-            actual.setPaginas(libro.getPaginas());
-            actual.setLanzamiento(libro.getLanzamiento());
-            
-            Libro actualizado = repo.save(actual);
+            actual.setNombreAutor(autor.getNombreAutor());
+            actual.setNacionalidad(autor.getNacionalidad());
+
+            Autor actualizado = repo.save(actual);
             return ResponseEntity.ok(actualizado);
         } else {
             return ResponseEntity.notFound().build();
         }
     }
 
-    // ELIMINAR LIBRO
+    // ELIMINAR AUTOR
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminar(@PathVariable("id") Long id) {
         if (repo.existsById(id)) {
