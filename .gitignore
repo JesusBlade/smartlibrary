@@ -35,3 +35,8 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### Angular ###
+smartlibrary/node_modules/
+smartlibrary/.angular/
+smartlibrary/dist/
