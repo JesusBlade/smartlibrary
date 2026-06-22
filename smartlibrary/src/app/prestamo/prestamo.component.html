@@ -1,0 +1,7 @@
+<form [formGroup]="miForm" (ngSubmit)="onSubmit()">
+  <input type="number" formControlName="idUsuario" placeholder="ID Usuario">
+  <input type="number" formControlName="idPersona" placeholder="ID Persona">
+  <input type="number" formControlName="idLibro" placeholder="ID Libro">
+  <input type="number" formControlName="multa" placeholder="Multa">
+  <button type="submit" [disabled]="miForm.invalid">Guardar Préstamo</button>
+</form>

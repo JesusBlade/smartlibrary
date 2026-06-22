@@ -1,0 +1,7 @@
+<form [formGroup]="miForm" (ngSubmit)="onSubmit()">
+  <input type="number" formControlName="idPersona" placeholder="ID Persona">
+  <input type="text" formControlName="user" placeholder="Usuario">
+  <input type="password" formControlName="password" placeholder="Contraseña">
+  <input type="text" formControlName="tipoUsuario" placeholder="Tipo de Usuario">
+  <button type="submit" [disabled]="miForm.invalid">Guardar Usuario</button>
+</form>

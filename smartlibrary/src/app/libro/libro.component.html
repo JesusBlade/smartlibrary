@@ -1,0 +1,9 @@
+<form [formGroup]="miForm" (ngSubmit)="onSubmit()">
+  <input type="number" formControlName="idAutor" placeholder="ID Autor">
+  <input type="number" formControlName="idCategoria" placeholder="ID Categoría">
+  <input type="text" formControlName="titulo" placeholder="Título">
+  <input type="text" formControlName="editorial" placeholder="Editorial">
+  <input type="number" formControlName="paginas" placeholder="Páginas">
+  <input type="date" formControlName="lanzamiento" placeholder="Lanzamiento">
+  <button type="submit" [disabled]="miForm.invalid">Guardar Libro</button>
+</form>

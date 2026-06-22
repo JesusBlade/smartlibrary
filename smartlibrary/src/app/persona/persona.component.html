@@ -1,0 +1,7 @@
+<form [formGroup]="miForm" (ngSubmit)="onSubmit()">
+  <input type="text" formControlName="nombre" placeholder="Nombre">
+  <input type="text" formControlName="apellido" placeholder="Apellido">
+  <input type="text" formControlName="dni" placeholder="DNI">
+  <input type="email" formControlName="correo" placeholder="Correo">
+  <button type="submit" [disabled]="miForm.invalid">Guardar Persona</button>
+</form>
