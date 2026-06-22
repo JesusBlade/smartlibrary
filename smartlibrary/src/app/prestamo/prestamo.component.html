@@ -1,7 +1,37 @@
-<form [formGroup]="miForm" (ngSubmit)="onSubmit()">
-  <input type="number" formControlName="idUsuario" placeholder="ID Usuario">
-  <input type="number" formControlName="idPersona" placeholder="ID Persona">
-  <input type="number" formControlName="idLibro" placeholder="ID Libro">
-  <input type="number" formControlName="multa" placeholder="Multa">
-  <button type="submit" [disabled]="miForm.invalid">Guardar Préstamo</button>
-</form>
+<div class="form-container">
+  <h2>Nuevo Préstamo</h2>
+  <form [formGroup]="miForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label>Usuario:</label>
+      <select formControlName="idUsuario">
+        <option value="">Seleccione un usuario</option>
+        <option *ngFor="let u of usuarios" [value]="u.id">
+          {{ u.user }}
+        </option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Persona:</label>
+      <select formControlName="idPersona">
+        <option value="">Seleccione una persona</option>
+        <option *ngFor="let p of personas" [value]="p.id">
+          {{ p.nombre }} {{ p.apellido }}
+        </option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Libro:</label>
+      <select formControlName="idLibro">
+        <option value="">Seleccione un libro</option>
+        <option *ngFor="let l of libros" [value]="l.id">
+          {{ l.titulo }}
+        </option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Multa:</label>
+      <input type="number" formControlName="multa">
+    </div>
+    <button type="submit" [disabled]="miForm.invalid">Guardar Préstamo</button>
+  </form>
+</div>

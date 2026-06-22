@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-persona',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './persona.component.html'
 })
 export class PersonaComponent implements OnInit {
@@ -24,6 +25,8 @@ export class PersonaComponent implements OnInit {
 
   onSubmit() {
     console.log(this.miForm.value);
-    this.http.post('http://localhost:8080/persona', this.miForm.value).subscribe();
+    this.http.post('http://localhost:8080/persona', this.miForm.value).subscribe(res => {
+      console.log(res);
+    });
   }
 }

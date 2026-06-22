@@ -1,7 +1,27 @@
-<form [formGroup]="miForm" (ngSubmit)="onSubmit()">
-  <input type="number" formControlName="idPersona" placeholder="ID Persona">
-  <input type="text" formControlName="user" placeholder="Usuario">
-  <input type="password" formControlName="password" placeholder="Contraseña">
-  <input type="text" formControlName="tipoUsuario" placeholder="Tipo de Usuario">
-  <button type="submit" [disabled]="miForm.invalid">Guardar Usuario</button>
-</form>
+<div class="form-container">
+  <h2>Nuevo Usuario</h2>
+  <form [formGroup]="miForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label>Persona:</label>
+      <select formControlName="idPersona">
+        <option value="">Seleccione una persona</option>
+        <option *ngFor="let p of personas" [value]="p.id">
+          {{ p.nombre }} {{ p.apellido }}
+        </option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Usuario:</label>
+      <input type="text" formControlName="user">
+    </div>
+    <div class="form-group">
+      <label>Contraseña:</label>
+      <input type="password" formControlName="password">
+    </div>
+    <div class="form-group">
+      <label>Tipo de Usuario:</label>
+      <input type="text" formControlName="tipoUsuario">
+    </div>
+    <button type="submit" [disabled]="miForm.invalid">Guardar Usuario</button>
+  </form>
+</div>
