@@ -9,18 +9,30 @@
           {{ p.nombre }} {{ p.apellido }}
         </option>
       </select>
+      <div *ngIf="miForm.get('idPersona')?.touched && miForm.get('idPersona')?.invalid">
+        <small *ngIf="miForm.get('idPersona')?.errors?.['required']" style="color: red;">Campo obligatorio</small>
+      </div>
     </div>
     <div class="form-group">
       <label>Usuario:</label>
       <input type="text" formControlName="user">
+      <div *ngIf="miForm.get('user')?.touched && miForm.get('user')?.invalid">
+        <small *ngIf="miForm.get('user')?.errors?.['required']" style="color: red;">Campo obligatorio</small>
+      </div>
     </div>
     <div class="form-group">
       <label>Contraseña:</label>
       <input type="password" formControlName="password">
+      <div *ngIf="miForm.get('password')?.touched && miForm.get('password')?.invalid">
+        <small *ngIf="miForm.get('password')?.errors?.['required']" style="color: red;">Campo obligatorio</small>
+      </div>
     </div>
     <div class="form-group">
       <label>Tipo de Usuario:</label>
       <input type="text" formControlName="tipoUsuario">
+      <div *ngIf="miForm.get('tipoUsuario')?.touched && miForm.get('tipoUsuario')?.invalid">
+        <small *ngIf="miForm.get('tipoUsuario')?.errors?.['required']" style="color: red;">Campo obligatorio</small>
+      </div>
     </div>
     <button type="submit" [disabled]="miForm.invalid">Guardar Usuario</button>
   </form>

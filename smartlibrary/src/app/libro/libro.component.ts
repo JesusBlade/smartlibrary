@@ -26,17 +26,17 @@ export class LibroComponent implements OnInit {
       lanzamiento: ['', Validators.required]
     });
 
-    this.http.get<any[]>('http://localhost:8080/autor').subscribe(data => {
+    this.http.get<any[]>('URL_BACKEND/autor').subscribe(data => {
       this.autores = data;
     });
-    this.http.get<any[]>('http://localhost:8080/categoria').subscribe(data => {
+    this.http.get<any[]>('URL_BACKEND/categoria').subscribe(data => {
       this.categorias = data;
     });
   }
 
   onSubmit() {
     console.log(this.miForm.value);
-    this.http.post('http://localhost:8080/libro', this.miForm.value).subscribe(res => {
+    this.http.post('URL_BACKEND/libro', this.miForm.value).subscribe(res => {
       console.log(res);
     });
   }

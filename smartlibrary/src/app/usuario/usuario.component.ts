@@ -23,14 +23,14 @@ export class UsuarioComponent implements OnInit {
       tipoUsuario: ['', Validators.required]
     });
 
-    this.http.get<any[]>('http://localhost:8080/persona').subscribe(data => {
+    this.http.get<any[]>('URL_BACKEND/persona').subscribe(data => {
       this.personas = data;
     });
   }
 
   onSubmit() {
     console.log(this.miForm.value);
-    this.http.post('http://localhost:8080/usuario', this.miForm.value).subscribe(res => {
+    this.http.post('URL_BACKEND/usuario', this.miForm.value).subscribe(res => {
       console.log(res);
     });
   }

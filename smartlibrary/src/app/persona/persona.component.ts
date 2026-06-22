@@ -25,7 +25,7 @@ export class PersonaComponent implements OnInit {
 
   onSubmit() {
     console.log(this.miForm.value);
-    this.http.post('http://localhost:8080/persona', this.miForm.value).subscribe(res => {
+    this.http.post('URL_BACKEND/persona', this.miForm.value).subscribe(res => {
       console.log(res);
     });
   }

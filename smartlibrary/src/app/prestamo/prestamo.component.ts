@@ -25,20 +25,20 @@ export class PrestamoComponent implements OnInit {
       multa: ['', Validators.required]
     });
 
-    this.http.get<any[]>('http://localhost:8080/usuario').subscribe(data => {
+    this.http.get<any[]>('URL_BACKEND/usuario').subscribe(data => {
       this.usuarios = data;
     });
-    this.http.get<any[]>('http://localhost:8080/persona').subscribe(data => {
+    this.http.get<any[]>('URL_BACKEND/persona').subscribe(data => {
       this.personas = data;
     });
-    this.http.get<any[]>('http://localhost:8080/libro').subscribe(data => {
+    this.http.get<any[]>('URL_BACKEND/libro').subscribe(data => {
       this.libros = data;
     });
   }
 
   onSubmit() {
     console.log(this.miForm.value);
-    this.http.post('http://localhost:8080/prestamo', this.miForm.value).subscribe(res => {
+    this.http.post('URL_BACKEND/prestamo', this.miForm.value).subscribe(res => {
       console.log(res);
     });
   }
