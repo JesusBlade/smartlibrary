@@ -1,0 +1,52 @@
+<form #miForm="ngForm" (ngSubmit)="onSubmit(miForm)" novalidate>
+  <h2>Registro de Usuario</h2>
+
+  <div>
+    <label>Persona</label>
+    <select name="idPersona" ngModel required #idPersona="ngModel">
+      <option value="">Seleccione una persona</option>
+      <option *ngFor="let p of personas" [value]="p.id">
+        {{ p.nombre }} {{ p.apellido }}
+      </option>
+    </select>
+    <div *ngIf="idPersona && idPersona.invalid && idPersona.touched" class="error-msg">
+      <div *ngIf="idPersona.errors?.['required']">
+        Seleccionar una persona es obligatorio
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <label>Usuario</label>
+    <input type="text" name="user" ngModel required #user="ngModel">
+    <div *ngIf="user && user.invalid && user.touched" class="error-msg">
+      <div *ngIf="user.errors?.['required']">
+        El usuario es obligatorio
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <label>Contraseña</label>
+    <input type="password" name="password" ngModel required #password="ngModel">
+    <div *ngIf="password && password.invalid && password.touched" class="error-msg">
+      <div *ngIf="password.errors?.['required']">
+        La contraseña es obligatoria
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <label>Tipo de Usuario</label>
+    <input type="text" name="tipoUsuario" ngModel required #tipoUsuario="ngModel">
+    <div *ngIf="tipoUsuario && tipoUsuario.invalid && tipoUsuario.touched" class="error-msg">
+      <div *ngIf="tipoUsuario.errors?.['required']">
+        El tipo de usuario es obligatorio
+      </div>
+    </div>
+  </div>
+
+  <button type="submit" [disabled]="miForm.invalid">
+    Guardar
+  </button>
+</form>

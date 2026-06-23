@@ -1,0 +1,77 @@
+<form #miForm="ngForm" (ngSubmit)="onSubmit(miForm)" novalidate>
+  <h2>Registro de Libro</h2>
+
+  <div>
+    <label>Autor</label>
+    <select name="idAutor" ngModel required #idAutor="ngModel">
+      <option value="">Seleccione un autor</option>
+      <option *ngFor="let a of autores" [value]="a.id">
+        {{ a.nombre }}
+      </option>
+    </select>
+    <div *ngIf="idAutor && idAutor.invalid && idAutor.touched">
+      <div *ngIf="idAutor.errors?.['required']">
+        Seleccionar un autor es obligatorio
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <label>Categoría</label>
+    <select name="idCategoria" ngModel required #idCategoria="ngModel">
+      <option value="">Seleccione una categoría</option>
+      <option *ngFor="let c of categorias" [value]="c.id">
+        {{ c.nombre }}
+      </option>
+    </select>
+    <div *ngIf="idCategoria && idCategoria.invalid && idCategoria.touched">
+      <div *ngIf="idCategoria.errors?.['required']">
+        Seleccionar una categoría es obligatorio
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <label>Título</label>
+    <input type="text" name="titulo" ngModel required #titulo="ngModel">
+    <div *ngIf="titulo && titulo.invalid && titulo.touched">
+      <div *ngIf="titulo.errors?.['required']">
+        El título es obligatorio
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <label>Editorial</label>
+    <input type="text" name="editorial" ngModel required #editorial="ngModel">
+    <div *ngIf="editorial && editorial.invalid && editorial.touched">
+      <div *ngIf="editorial.errors?.['required']">
+        La editorial es obligatoria
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <label>Cantidad de Páginas</label>
+    <input type="number" name="paginas" ngModel required #paginas="ngModel">
+    <div *ngIf="paginas && paginas.invalid && paginas.touched">
+      <div *ngIf="paginas.errors?.['required']">
+        La cantidad de páginas es obligatoria
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <label>Año de Lanzamiento</label>
+    <input type="number" name="lanzamiento" ngModel required #lanzamiento="ngModel">
+    <div *ngIf="lanzamiento && lanzamiento.invalid && lanzamiento.touched">
+      <div *ngIf="lanzamiento.errors?.['required']">
+        El año de lanzamiento es obligatorio
+      </div>
+    </div>
+  </div>
+
+  <button type="submit" [disabled]="miForm.invalid">
+    Guardar
+  </button>
+</form>

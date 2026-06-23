@@ -1,0 +1,50 @@
+<form #miForm="ngForm" (ngSubmit)="onSubmit(miForm)" novalidate>
+  <h2>Registro de Persona</h2>
+
+  <div>
+    <label>Nombre</label>
+    <input type="text" name="nombre" ngModel required #nombre="ngModel">
+    <div *ngIf="nombre && nombre.invalid && nombre.touched" class="error-msg">
+      <div *ngIf="nombre.errors?.['required']">
+        El nombre es obligatorio
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <label>Apellido</label>
+    <input type="text" name="apellido" ngModel required #apellido="ngModel">
+    <div *ngIf="apellido && apellido.invalid && apellido.touched" class="error-msg">
+      <div *ngIf="apellido.errors?.['required']">
+        El apellido es obligatorio
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <label>DNI</label>
+    <input type="number" name="dni" ngModel required #dni="ngModel">
+    <div *ngIf="dni && dni.invalid && dni.touched" class="error-msg">
+      <div *ngIf="dni.errors?.['required']">
+        El DNI es obligatorio
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <label>Correo Electrónico</label>
+    <input type="email" name="correo" ngModel required email #correo="ngModel">
+    <div *ngIf="correo && correo.invalid && correo.touched" class="error-msg">
+      <div *ngIf="correo.errors?.['required']">
+        El correo es obligatorio
+      </div>
+      <div *ngIf="correo.errors?.['email']">
+        El formato del correo es inválido
+      </div>
+    </div>
+  </div>
+
+  <button type="submit" [disabled]="miForm.invalid">
+    Guardar
+  </button>
+</form>

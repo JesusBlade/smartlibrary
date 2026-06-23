@@ -1,0 +1,19 @@
+<form #miForm="ngForm" (ngSubmit)="onSubmit(miForm)" novalidate>
+
+  <div>
+    <label>Descripción</label>
+    <input type="text" name="descripcion" ngModel required #descripcion="ngModel">
+  </div>
+
+  <div *ngIf="descripcion && descripcion.invalid && descripcion.touched">
+    <div *ngIf="descripcion.errors?.['required']">
+      Campo obligatorio
+    </div>
+  </div>
+
+  <button type="submit" [disabled]="miForm.invalid">
+    Guardar
+  </button>
+
+</form>
+``

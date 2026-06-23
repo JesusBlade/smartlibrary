@@ -1,0 +1,82 @@
+<form #miForm="ngForm" (ngSubmit)="onSubmit(miForm)" novalidate>
+  <h2>Registro de Préstamo</h2>
+
+  <div>
+    <label>Usuario</label>
+    <select name="idUsuario" ngModel required #idUsuario="ngModel">
+      <option value="">Seleccione un usuario</option>
+      <option *ngFor="let u of usuarios" [value]="u.id">
+        {{ u.nombre }}
+      </option>
+    </select>
+    <div *ngIf="idUsuario && idUsuario.invalid && idUsuario.touched" class="error-msg">
+      <div *ngIf="idUsuario.errors?.['required']">
+        Seleccionar un usuario es obligatorio
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <label>Persona</label>
+    <select name="idPersona" ngModel required #idPersona="ngModel">
+      <option value="">Seleccione una persona</option>
+      <option *ngFor="let p of personas" [value]="p.id">
+        {{ p.nombre }} {{ p.apellido }}
+      </option>
+    </select>
+    <div *ngIf="idPersona && idPersona.invalid && idPersona.touched" class="error-msg">
+      <div *ngIf="idPersona.errors?.['required']">
+        Seleccionar una persona es obligatorio
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <label>Libro</label>
+    <select name="idLibro" ngModel required #idLibro="ngModel">
+      <option value="">Seleccione un libro</option>
+      <option *ngFor="let l of libros" [value]="l.id">
+        {{ l.titulo }}
+      </option>
+    </select>
+    <div *ngIf="idLibro && idLibro.invalid && idLibro.touched" class="error-msg">
+      <div *ngIf="idLibro.errors?.['required']">
+        Seleccionar un libro es obligatorio
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <label>Fecha de Préstamo</label>
+    <input type="date" name="fechaPrestamo" ngModel required #fechaPrestamo="ngModel">
+    <div *ngIf="fechaPrestamo && fechaPrestamo.invalid && fechaPrestamo.touched" class="error-msg">
+      <div *ngIf="fechaPrestamo.errors?.['required']">
+        La fecha de préstamo es obligatoria
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <label>Fecha de Devolución</label>
+    <input type="date" name="fechaDevolucion" ngModel required #fechaDevolucion="ngModel">
+    <div *ngIf="fechaDevolucion && fechaDevolucion.invalid && fechaDevolucion.touched" class="error-msg">
+      <div *ngIf="fechaDevolucion.errors?.['required']">
+        La fecha de devolución es obligatoria
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <label>Multa</label>
+    <input type="number" step="0.01" name="multa" ngModel required #multa="ngModel">
+    <div *ngIf="multa && multa.invalid && multa.touched" class="error-msg">
+      <div *ngIf="multa.errors?.['required']">
+        La multa es obligatoria (puede ser 0)
+      </div>
+    </div>
+  </div>
+
+  <button type="submit" [disabled]="miForm.invalid">
+    Guardar
+  </button>
+</form>

@@ -20,7 +20,8 @@ public class WebSecurityConfig {
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		http.csrf(csrf -> csrf.disable())
+		http.cors(cors -> {})
+				csrf(csrf -> csrf.disable())
 				.authorizeHttpRequests(auth -> auth.requestMatchers("/auth").permitAll().anyRequest().authenticated())
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 		http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
@@ -30,5 +31,31 @@ public class WebSecurityConfig {
 	@Bean
 	public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
 		return config.getAuthenticationManager();
+	}
+
+
+	//METODO PARA PERMITIR LA CONEXION CON ANGULAR - CORS
+	@Bean
+	public org.springframework.web.cors.CorsConfigurationSource corsConfigurationSource() {
+
+		org.springframework.web.cors.CorsConfiguration configuration =
+			new org.springframework.web.cors.CorsConfiguration();
+
+		configuration.setAllowedOrigins(java.util.List.of("http://localhost:4200"));
+		configuration.setAllowedMethods(java.util.List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+		configuration.setAllowedHeaders(java.util.List.of("*"));
+		configuration.setAllowCredentials(true);
+
+		org.springframework.web.cors.UrlBasedCorsConfigurationSource source =
+			new org.springframework.web.cors.UrlBasedCorsConfigurationSource();
+
+		source.registerCorsConfiguration("/**", configuration);
+
+		return source;
+	}
+
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
 	}
 }

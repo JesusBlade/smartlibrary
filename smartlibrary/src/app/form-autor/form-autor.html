@@ -1,0 +1,28 @@
+<form #miForm="ngForm" (ngSubmit)="onSubmit(miForm)" novalidate>
+  <h2>Registro de Autor</h2>
+
+  <div>
+    <label>Nombre del Autor</label>
+    <input type="text" name="nombreAutor" ngModel required #nombreAutor="ngModel">
+    <div *ngIf="nombreAutor && nombreAutor.invalid && nombreAutor.touched" class="error-msg">
+      <div *ngIf="nombreAutor.errors?.['required']">
+        El nombre del autor es obligatorio
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <label>Nacionalidad</label>
+    <input type="text" name="nacionalidad" ngModel required #nacionalidad="ngModel">
+    <div *ngIf="nacionalidad && nacionalidad.invalid && nacionalidad.touched" class="error-msg">
+      <div *ngIf="nacionalidad.errors?.['required']">
+        La nacionalidad es obligatoria
+      </div>
+    </div>
+  </div>
+
+  <button type="submit" [disabled]="miForm.invalid">
+    Guardar
+  </button>
+
+</form>
