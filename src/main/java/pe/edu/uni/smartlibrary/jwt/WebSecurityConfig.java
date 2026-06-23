@@ -35,7 +35,14 @@ public class WebSecurityConfig {
             .cors(Customizer.withDefaults()) 
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/auth").permitAll()
+                .requestMatchers("/auth",	
+                		"/persona",
+                		 "/usuario",    
+                		 "/libro",        
+                		 "/prestamo",               		            
+                		 "/autores",               		                
+                		 "/categorias"
+                		).permitAll()
                 .anyRequest().authenticated()
             )
             .sessionManagement(session -> session
