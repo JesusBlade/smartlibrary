@@ -9,7 +9,7 @@
         {{ p.nombre }} {{ p.apellido }}
       </option>
     </select>
-    <div *ngIf="idPersona && idPersona.invalid && idPersona.touched" class="error-msg">
+    <div ngIf="idPersona && idPersona.invalid && idPersona.touched && personas.length > 0" class="error-msg">
       <div *ngIf="idPersona.errors?.['required']">
         Seleccionar una persona es obligatorio
       </div>
@@ -37,8 +37,13 @@
   </div>
 
   <div>
-    <label>Tipo de Usuario</label>
-    <input type="text" name="tipoUsuario" ngModel required #tipoUsuario="ngModel">
+    <label>Tipo de Usuario</label>    
+	<select name="tipoUsuario" ngModel required #tipoUsuario="ngModel">
+	    <option value="">Seleccione tipo</option>
+	    <option value="ADMIN">ADMIN</option>
+	    <option value="CLIENTE">CLIENTE</option>
+	    <option value="INVITADO">INVITADO</option>
+	  </select>
     <div *ngIf="tipoUsuario && tipoUsuario.invalid && tipoUsuario.touched" class="error-msg">
       <div *ngIf="tipoUsuario.errors?.['required']">
         El tipo de usuario es obligatorio
