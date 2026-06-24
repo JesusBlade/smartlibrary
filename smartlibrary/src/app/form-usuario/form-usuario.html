@@ -9,7 +9,7 @@
         {{ p.nombre }} {{ p.apellido }}
       </option>
     </select>
-    <div ngIf="idPersona && idPersona.invalid && idPersona.touched && personas.length > 0" class="error-msg">
+    <div *ngIf="idPersona && idPersona.invalid && idPersona.touched && personas.length > 0" class="error-msg">
       <div *ngIf="idPersona.errors?.['required']">
         Seleccionar una persona es obligatorio
       </div>
