@@ -9,7 +9,7 @@
         {{ a.nombre }}
       </option>
     </select>
-    <div *ngIf="idAutor && idAutor.invalid && idAutor.touched">
+    <div *ngIf="idAutor && idAutor.invalid && idAutor.touched && autores.length > 0">
       <div *ngIf="idAutor.errors?.['required']">
         Seleccionar un autor es obligatorio
       </div>
@@ -24,7 +24,7 @@
         {{ c.nombre }}
       </option>
     </select>
-    <div *ngIf="idCategoria && idCategoria.invalid && idCategoria.touched">
+    <div *ngIf="idCategoria && idCategoria.invalid && idCategoria.touched && categorias.length > 0">
       <div *ngIf="idCategoria.errors?.['required']">
         Seleccionar una categoría es obligatorio
       </div>

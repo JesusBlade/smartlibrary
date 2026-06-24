@@ -6,10 +6,10 @@
     <select name="idUsuario" ngModel required #idUsuario="ngModel">
       <option value="">Seleccione un usuario</option>
       <option *ngFor="let u of usuarios" [value]="u.id">
-        {{ u.nombre }}
+        {{ u.user }}
       </option>
     </select>
-    <div *ngIf="idUsuario && idUsuario.invalid && idUsuario.touched" class="error-msg">
+    <div *ngIf="idUsuario && idUsuario.invalid && idUsuario.touched && usuarios.length > 0" class="error-msg">
       <div *ngIf="idUsuario.errors?.['required']">
         Seleccionar un usuario es obligatorio
       </div>
@@ -24,7 +24,7 @@
         {{ p.nombre }} {{ p.apellido }}
       </option>
     </select>
-    <div *ngIf="idPersona && idPersona.invalid && idPersona.touched" class="error-msg">
+    <div *ngIf="idPersona && idPersona.invalid && idPersona.touched && personas.length > 0" class="error-msg">
       <div *ngIf="idPersona.errors?.['required']">
         Seleccionar una persona es obligatorio
       </div>
@@ -39,7 +39,7 @@
         {{ l.titulo }}
       </option>
     </select>
-    <div *ngIf="idLibro && idLibro.invalid && idLibro.touched" class="error-msg">
+    <div *ngIf="idLibro && idLibro.invalid && idLibro.touched && libros.length > 0" class="error-msg">
       <div *ngIf="idLibro.errors?.['required']">
         Seleccionar un libro es obligatorio
       </div>
