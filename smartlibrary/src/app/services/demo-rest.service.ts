@@ -10,6 +10,10 @@ export class DemoRest {
 
   constructor(private http: HttpClient) {}
 
+  login(data: any): Observable<string> {
+    return this.http.post(`${this.baseUrl}/auth`, data, { responseType: 'text' });
+  }
+
   // PERSONA
   getPersonas(): Observable<any[]> {
     return this.http.get<any[]>(`${this.baseUrl}/persona`);
@@ -44,17 +48,17 @@ export class DemoRest {
 
   // AUTOR
   getAutores(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseUrl}/autores`);
+    return this.http.get<any[]>(`${this.baseUrl}/autor`);
   }
   saveAutor(autor: any): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/autores`, autor);
+    return this.http.post<any>(`${this.baseUrl}/autor`, autor);
   }
 
   // CATEGORIA
   getCategorias(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseUrl}/categorias`);
+    return this.http.get<any[]>(`${this.baseUrl}/categoria`);
   }
   saveCategoria(categoria: any): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/categorias`, categoria);
+    return this.http.post<any>(`${this.baseUrl}/categoria`, categoria);
   }
 }

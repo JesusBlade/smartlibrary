@@ -36,12 +36,13 @@ public class WebSecurityConfig {
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/auth",	
-                		"/persona",
-                		 "/usuario",    
-                		 "/libro",        
-                		 "/prestamo",               		            
-                		 "/autores",               		                
-                		 "/categorias"
+                		        "/persona/**",
+                		        "/usuario/**",
+                		        "/libro/**",
+                		        "/prestamo/**",
+                		        "/autor/**",
+                		        "/categoria/**"
+
                 		).permitAll()
                 .anyRequest().authenticated()
             )

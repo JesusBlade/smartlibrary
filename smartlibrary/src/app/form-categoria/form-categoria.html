@@ -1,12 +1,12 @@
 <form #miForm="ngForm" (ngSubmit)="onSubmit(miForm)" novalidate>
 
   <div>
-    <label>Descripción</label>
-    <input type="text" name="descripcion" ngModel required #descripcion="ngModel">
+    <label>Categoría</label>
+    <input type="text" name="categoria" ngModel required #categoria="ngModel">
   </div>
 
-  <div *ngIf="descripcion && descripcion.invalid && descripcion.touched">
-    <div *ngIf="descripcion.errors?.['required']">
+  <div *ngIf="categoria && categoria.invalid && categoria.touched">
+    <div *ngIf="categoria.errors?.['required']">
       Campo obligatorio
     </div>
   </div>
@@ -16,4 +16,3 @@
   </button>
 
 </form>
-``

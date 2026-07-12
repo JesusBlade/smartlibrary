@@ -16,6 +16,18 @@ public class UsuarioControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
+    @Autowired
+    private pe.edu.uni.smartlibrary.repository.RepositoryUsuario repoUsuario;
+
+    @Test
+    void debugDB() {
+        System.out.println("=== DEBUG USUARIOS EN BD ===");
+        repoUsuario.findAll().forEach(u -> {
+            System.out.println("ID: " + u.getId() + ", User: " + u.getUser() + ", Password: " + u.getPassword());
+        });
+        System.out.println("============================");
+    }
+
     // LISTAR → 200
     @Test
     void listar_conUsuarios_deberiaRetornar200() throws Exception {

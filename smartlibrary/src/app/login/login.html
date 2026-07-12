@@ -1,0 +1,49 @@
+<div class="login-container">
+
+  <div class="info-panel">
+    <h1>📚 SmartLibrary</h1>
+
+    <p>
+      Sistema de Gestión de Biblioteca
+    </p>
+  </div>
+
+  <form #miForm="ngForm" (ngSubmit)="onSubmit(miForm)" novalidate>
+
+    <h2>Iniciar Sesión</h2>
+
+    <div *ngIf="errorMensaje" class="error-msg-global">
+      {{ errorMensaje }}
+    </div>
+
+    <div>
+      <label>Usuario</label>
+
+      <input type="text" name="user" ngModel required #user="ngModel" placeholder="Ingrese su usuario">
+
+      <div *ngIf="user && user.invalid && user.touched" class="error-msg">
+        <div *ngIf="user.errors?.['required']">
+          El usuario es obligatorio
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <label>Contraseña</label>
+
+      <input type="password" name="password" ngModel required #password="ngModel" placeholder="Ingrese su contraseña">
+
+      <div *ngIf="password && password.invalid && password.touched" class="error-msg">
+        <div *ngIf="password.errors?.['required']">
+          La contraseña es obligatoria
+        </div>
+      </div>
+    </div>
+
+    <button type="submit" [disabled]="miForm.invalid">
+      Iniciar Sesión
+    </button>
+
+  </form>
+
+</div>

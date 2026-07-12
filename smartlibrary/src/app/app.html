@@ -1,14 +1,11 @@
-<header class="navbar">
+<header class="navbar" *ngIf="isLoggedIn()">
   <div class="logo">
-    📚 SmartLibrary
+    SmartLibrary
   </div>
 
   <nav>
     <a routerLink="/formlibro">Libros</a>
-    <a routerLink="/formautor">Autores</a>
-    <a routerLink="/formcategoria">Categorías</a>
     <a routerLink="/formusuario">Usuarios</a>
-    <a routerLink="/formpersona">Personas</a>
     <a routerLink="/formprestamo">Préstamos</a>
   </nav>
 </header>

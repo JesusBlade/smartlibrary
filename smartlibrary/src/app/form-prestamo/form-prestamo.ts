@@ -14,6 +14,7 @@ export class FormPrestamo implements OnInit {
   usuarios: any[] = [];
   personas: any[] = [];
   libros: any[] = [];
+  prestamos: any[] = [];
 
   constructor(private demoRest: DemoRest) { }
 
@@ -21,6 +22,7 @@ export class FormPrestamo implements OnInit {
     this.cargarUsuarios();
     this.cargarPersonas();
     this.cargarLibros();
+	this.cargarPrestamos();
   }
 
   cargarUsuarios() {
@@ -40,6 +42,13 @@ export class FormPrestamo implements OnInit {
   cargarLibros() {
     this.demoRest.getLibros().subscribe({
       next: (data) => this.libros = data,
+      error: (err) => console.error(err)
+    });
+  }
+  
+  cargarPrestamos() {
+    this.demoRest.getPrestamos().subscribe({
+      next: (data) => this.prestamos = data,
       error: (err) => console.error(err)
     });
   }

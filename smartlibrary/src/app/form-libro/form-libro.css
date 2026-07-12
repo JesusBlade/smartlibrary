@@ -55,3 +55,29 @@ button:disabled {
     background-color: #ccc;
     cursor: not-allowed;
 }
+
+.fila {
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.fila-autor {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.fila-autor select {
+    flex: 1;
+}
+
+.btn-autor {
+    background: #1976d2;
+    color: white;
+    text-decoration: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    white-space: nowrap;
+}
