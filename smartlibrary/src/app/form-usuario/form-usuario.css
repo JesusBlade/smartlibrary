@@ -55,3 +55,18 @@ button:disabled {
     background-color: #ccc;
     cursor: not-allowed;
 }
+
+.person-input-group {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.person-select {
+    flex: 0.6;
+}
+
+.person-button {
+    flex: 0.4;
+    margin-top: 10px;
+}

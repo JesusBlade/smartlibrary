@@ -16,5 +16,6 @@ export class App {
   }
   logout() {
     localStorage.removeItem('token');
+    window.location.href = '/login';
   }
 }
