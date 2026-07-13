@@ -37,6 +37,14 @@ export class DemoRest {
   saveLibro(libro: any): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}/libro`, libro);
   }
+  
+  updateLibro(id: number, libro: any) {
+      return this.http.put<any>(`${this.baseUrl}/libro/${id}`, libro);
+    }
+
+  deleteLibro(id: number) {
+      return this.http.delete(`${this.baseUrl}/libro/${id}`);
+    }
 
   // PRESTAMO
   getPrestamos(): Observable<any[]> {
@@ -44,6 +52,14 @@ export class DemoRest {
   }
   savePrestamo(prestamo: any): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}/prestamo`, prestamo);
+  }
+  
+  updatePrestamo(id: number, prestamo: any) {
+    return this.http.put<any>(`${this.baseUrl}/prestamo/${id}`, prestamo);
+  }
+
+  deletePrestamo(id: number) {
+    return this.http.delete(`${this.baseUrl}/prestamo/${id}`);
   }
 
   // AUTOR
@@ -62,11 +78,4 @@ export class DemoRest {
     return this.http.post<any>(`${this.baseUrl}/categorias`, categoria);
   }
   
-  updateLibro(id: number, libro: any) {
-    return this.http.put<any>(`${this.baseUrl}/libro/${id}`, libro);
-  }
-
-  deleteLibro(id: number) {
-    return this.http.delete(`${this.baseUrl}/libro/${id}`);
-  }
 }

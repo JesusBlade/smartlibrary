@@ -102,6 +102,7 @@ export class FormLibro implements OnInit {
           console.log('Libro actualizado:', res);
           this.cargarLibros();
           form.resetForm();
+		  this.libroEditar = {};
           this.mostrarFormulario = false;
           this.editando = false;
           this.idLibroEditar = 0;
@@ -115,6 +116,7 @@ export class FormLibro implements OnInit {
           console.log('Libro registrado:', res);
           this.cargarLibros();
           form.resetForm();
+		  this.libroEditar = {};
           this.mostrarFormulario = false;
         },
         error: (err) => console.error(err)

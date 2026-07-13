@@ -1,443 +1,537 @@
+<!-- ========================= -->
+<!-- GESTIÓN DE LIBROS -->
+<!-- ========================= -->
+
 <div class="container-fluid mt-4">
 
-<div class="row align-items-center mb-4">
+  <!-- Cabecera -->
+  <div class="row align-items-center mb-4">
 
-<div class="col-md-6">
-<h2 class="fw-bold">
-<i class="bi bi-book-half text-primary me-2"></i>
-Gestión de Libros
-</h2>
-<p class="text-muted mb-0">
-Administra el catálogo de la biblioteca
-</p>
-</div>
+    <div class="col-md-6">
+      <h2 class="fw-bold">
+        <i class="bi bi-book-half text-primary me-2"></i>
+        Gestión de Libros
+      </h2>
 
-<div class="col-md-6 text-end">
+      <p class="text-muted mb-0">
+        Administra el catálogo de la biblioteca
+      </p>
+    </div>
 
-<button
-type="button"
-class="btn btn-primary"
-(click)="mostrarFormulario=true">
+    <div class="col-md-6 text-end">
 
-<i class="bi bi-plus-circle me-2"></i>
-Nuevo Libro
+      <button
+        type="button"
+        class="btn btn-primary"
+        (click)="mostrarFormulario=true">
 
-</button>
+        <i class="bi bi-plus-circle me-2"></i>
+        Nuevo Libro
 
-</div>
+      </button>
 
-</div>
+    </div>
 
-<div class="card shadow-sm border-0">
+  </div>
 
-<div class="card-body">
+  <!-- Tabla de Libros -->
+  <div class="card shadow-sm border-0">
 
-<div class="row mb-3">
+    <div class="card-body">
 
-<div class="col-md-8">
+      <!-- Barra de búsqueda -->
+      <div class="row mb-3">
 
-<div class="input-group">
+        <div class="col-md-8">
 
-<span class="input-group-text">
-<i class="bi bi-search"></i>
-</span>
+          <div class="input-group">
 
-<input
-type="text"
-class="form-control"
-placeholder="Buscar por título..."
-name="buscar"
-[(ngModel)]="textoBusqueda">
+            <span class="input-group-text">
+              <i class="bi bi-search"></i>
+            </span>
 
-</div>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Buscar por título..."
+              name="buscar"
+              [(ngModel)]="textoBusqueda">
 
-</div>
+          </div>
 
-<div class="col-md-4 text-end">
+        </div>
 
-<span class="badge bg-primary fs-6">
-{{ librosFiltrados().length }} Libros
-</span>
+        <div class="col-md-4 text-end">
 
-</div>
+          <span class="badge bg-primary fs-6">
+            {{ librosFiltrados().length }} Libros
+          </span>
 
-</div>
+        </div>
 
-<div class="table-responsive">
+      </div>
 
-<table class="table table-hover align-middle">
+      <!-- Tabla -->
+      <div class="table-responsive">
 
-<thead class="table-light">
+        <table class="table table-hover align-middle">
 
-<tr>
+          <thead class="table-light">
 
-<th>
-<i class="bi bi-book me-1"></i>
-Título
-</th>
+            <tr>
 
-<th>
-<i class="bi bi-person me-1"></i>
-Autor
-</th>
+              <th>
+                <i class="bi bi-book me-1"></i>
+                Título
+              </th>
 
-<th>
-<i class="bi bi-tag me-1"></i>
-Categoría
-</th>
+              <th>
+                <i class="bi bi-person me-1"></i>
+                Autor
+              </th>
 
-<th>
-<i class="bi bi-building me-1"></i>
-Editorial
-</th>
+              <th>
+                <i class="bi bi-tag me-1"></i>
+                Categoría
+              </th>
 
-<th class="text-center">
-<i class="bi bi-file-earmark-text me-1"></i>
-Páginas
-</th>
+              <th>
+                <i class="bi bi-building me-1"></i>
+                Editorial
+              </th>
 
-<th class="text-center">
-<i class="bi bi-calendar me-1"></i>
-Año
-</th>
-<th class="text-center">
-Acciones
-</th>
-</tr>
-</thead>
-<tbody>
-<tr *ngFor="let libro of librosFiltrados()">
+              <th class="text-center">
+                <i class="bi bi-file-earmark-text me-1"></i>
+                Páginas
+              </th>
 
-<td class="fw-semibold">
-{{libro.titulo}}
-</td>
+              <th class="text-center">
+                <i class="bi bi-calendar me-1"></i>
+                Año
+              </th>
 
+              <th class="text-center">
+                Acciones
+              </th>
 
-<td>{{ obtenerAutor(libro.idAutor) }}</td>
-<td>{{ obtenerCategoria(libro.idCategoria) }}</td>
+            </tr>
 
-<td>
-{{libro.editorial}}
-</td>
+          </thead>
 
-<td class="text-center">
-{{libro.paginas}}
-</td>
+          <tbody>
 
-<td class="text-center">
-{{libro.lanzamiento}}
-</td>
+            <!-- Libros -->
+            <tr *ngFor="let libro of librosFiltrados()">
 
-<td class="text-center">
+              <td class="fw-semibold">
+                {{ libro.titulo }}
+              </td>
 
-<button
-type="button"
-class="btn btn-outline-primary btn-sm"
-title="Editar"
-(click)="editar(libro)">
+              <td>
+                {{ obtenerAutor(libro.idAutor) }}
+              </td>
 
-<i class="bi bi-pencil"></i>
-</button>
+              <td>
+                {{ obtenerCategoria(libro.idCategoria) }}
+              </td>
 
-<button
-type="button"
-class="btn btn-outline-danger btn-sm"
-title="Eliminar"
-(click)="eliminar(libro.id)">
+              <td>
+                {{ libro.editorial }}
+              </td>
 
-<i class="bi bi-trash"></i>
+              <td class="text-center">
+                {{ libro.paginas }}
+              </td>
 
-</button>
-</td>
+              <td class="text-center">
+                {{ libro.lanzamiento }}
+              </td>
 
-</tr>
+              <td class="text-center">
 
-<tr *ngIf="libros.length==0">
+                <button
+                  type="button"
+                  class="btn btn-outline-primary btn-sm"
+                  title="Editar"
+                  (click)="editar(libro)">
 
-<td
-colspan="7"
-class="text-center py-5">
+                  <i class="bi bi-pencil"></i>
 
-<i class="bi bi-journal-x fs-1 text-secondary"></i>
+                </button>
 
-<p class="mt-3 mb-0 text-muted">
+                <button
+                  type="button"
+                  class="btn btn-outline-danger btn-sm"
+                  title="Eliminar"
+                  (click)="eliminar(libro.id)">
 
-No existen libros registrados.
-</p>
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
+                  <i class="bi bi-trash"></i>
 
-<div
-class="card shadow mt-4 col-lg-10 mx-auto"
-*ngIf="mostrarFormulario">
+                </button>
 
-<div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+              </td>
 
-<h5 class="mb-0">
+            </tr>
 
-<i class="bi bi-bookmark-plus me-2"></i>
+            <!-- Sin registros -->
+            <tr *ngIf="libros.length == 0">
 
-Registro de Libro
+              <td
+                colspan="7"
+                class="text-center py-5">
 
-</h5>
+                <i class="bi bi-journal-x fs-1 text-secondary"></i>
 
-<button
-type="button"
-class="btn-close btn-close-white"
-(click)="mostrarFormulario=false">
-</button>
+                <p class="mt-3 mb-0 text-muted">
+                  No existen libros registrados.
+                </p>
 
-</div>
+              </td>
 
-<div class="card-body">
+            </tr>
 
-<form
-#miForm="ngForm"
-(ngSubmit)="onSubmit(miForm)"
-novalidate>
+          </tbody>
 
-<div class="row">
+        </table>
 
-<div class="col-md-12 col-lg-6">
+      </div>
 
-<label class="form-label">
-Autor
-</label>
+    </div>
 
-<div class="input-group mb-3 w-100">
+  </div>
+    <!-- ========================= -->
+  <!-- FORMULARIO LIBRO -->
+  <!-- ========================= -->
 
-<select
-class="form-select w-100"
-name="idAutor"
-[(ngModel)]="libroEditar.idAutor"
-required>
+  <div
+    class="card shadow mt-4 col-lg-10 mx-auto"
+    *ngIf="mostrarFormulario">
 
-<option value="">Seleccione un autor</option>
+    <!-- Cabecera del formulario -->
+    <div
+      class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
 
-<option
-*ngFor="let a of autores"
-[value]="a.id">
+      <h5 class="mb-0">
+        <i class="bi bi-bookmark-plus me-2"></i>
+        Registro de Libro
+      </h5>
 
-{{a.nombreAutor}}
+      <button
+        type="button"
+        class="btn-close btn-close-white"
+        (click)="mostrarFormulario=false">
+      </button>
 
-</option>
+    </div>
 
-</select>
+    <div class="card-body">
 
-<button
-type="button"
-class="btn btn-outline-primary"
-title="Nuevo Autor"
-(click)="mostrarAutor=!mostrarAutor">
+      <form
+        #miForm="ngForm"
+        (ngSubmit)="onSubmit(miForm)"
+        novalidate>
 
-<i class="bi bi-plus-lg"></i>
+        <!-- ========================= -->
+        <!-- AUTOR Y CATEGORÍA -->
+        <!-- ========================= -->
 
-</button>
+        <div class="row">
 
-</div>
+          <!-- Autor -->
+          <div class="col-md-12 col-lg-6">
 
-<!-- AQUI VA EL FORMULARIO DEL AUTOR -->
+            <label class="form-label">
+              Autor
+            </label>
 
-<div class="card mt-2 w-100" *ngIf="mostrarAutor">
+            <div class="input-group mb-3 w-100">
 
-<div class="card-body">
+              <select
+                class="form-select w-100"
+                name="idAutor"
+                [(ngModel)]="libroEditar.idAutor"
+                required>
 
-<div class="mb-2">
+                <option value="">
+                  Seleccione un autor
+                </option>
 
-<label class="form-label">Nombre del Autor</label>
+                <option
+                  *ngFor="let a of autores"
+                  [value]="a.id">
 
-<input
-type="text"
-class="form-control"
-name="nombreAutorNuevo"
-[(ngModel)]="autorNuevo.nombreAutor">
+                  {{ a.nombreAutor }}
 
-</div>
+                </option>
 
-<div class="mb-3">
+              </select>
 
-<label class="form-label">Nacionalidad</label>
+              <button
+                type="button"
+                class="btn btn-outline-primary"
+                title="Nuevo Autor"
+                (click)="mostrarAutor=!mostrarAutor">
 
-<input
-type="text"
-class="form-control"
-name="nacionalidadNueva"
-[(ngModel)]="autorNuevo.nacionalidad">
+                <i class="bi bi-plus-lg"></i>
 
-</div>
+              </button>
 
-<button
-type="button"
-class="btn btn-success btn-sm me-2"
-(click)="guardarAutor()">
+            </div>
 
-Guardar
+            <!-- Formulario Nuevo Autor -->
+            <div
+              class="card mt-2 w-100"
+              *ngIf="mostrarAutor">
 
-</button>
+              <div class="card-body">
 
-<button
-type="button"
-class="btn btn-secondary btn-sm"
-(click)="mostrarAutor=false">
+                <div class="mb-2">
 
-Cancelar
+                  <label class="form-label">
+                    Nombre del Autor
+                  </label>
 
-</button>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="nombreAutorNuevo"
+                    [(ngModel)]="autorNuevo.nombreAutor">
 
-</div>
+                </div>
 
-</div>
+                <div class="mb-3">
 
-</div>
+                  <label class="form-label">
+                    Nacionalidad
+                  </label>
 
-<div class="col-md-12 col-lg-6">
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="nacionalidadNueva"
+                    [(ngModel)]="autorNuevo.nacionalidad">
 
-<label class="form-label">
-Categoría
-</label>
+                </div>
 
-<div class="input-group mb-3 w-100">
+                <button
+                  type="button"
+                  class="btn btn-success btn-sm me-2"
+                  (click)="guardarAutor()">
 
-<select
-class="form-select w-100"
-name="idCategoria"
-[(ngModel)]="libroEditar.idCategoria"
-required>
+                  Guardar
 
-<option value="">
-Seleccione una categoría
-</option>
+                </button>
 
-<option
-*ngFor="let c of categorias"
-[value]="c.id">
+                <button
+                  type="button"
+                  class="btn btn-secondary btn-sm"
+                  (click)="mostrarAutor=false">
 
-{{c.categoria}}
+                  Cancelar
 
-</option>
+                </button>
 
-</select>
+              </div>
 
-<button
-type="button"
-class="btn btn-outline-primary"
-title="Nueva Categoría"
-(click)="mostrarCategoria=!mostrarCategoria">
+            </div>
 
-<i class="bi bi-plus-lg"></i>
+          </div>
 
-</button>
+          <!-- Categoría -->
+          <div class="col-md-12 col-lg-6">
 
-</div>
+            <label class="form-label">
+              Categoría
+            </label>
 
-<div class="card mt-2 w-100" *ngIf="mostrarCategoria">
+            <div class="input-group mb-3 w-100">
 
-<div class="card-body">
+              <select
+                class="form-select w-100"
+                name="idCategoria"
+                [(ngModel)]="libroEditar.idCategoria"
+                required>
 
-<div class="mb-3">
+                <option value="">
+                  Seleccione una categoría
+                </option>
 
-<label class="form-label">
-Nueva Categoría
-</label>
+                <option
+                  *ngFor="let c of categorias"
+                  [value]="c.id">
 
-<input
-type="text"
-class="form-control"
-name="categoriaNueva"
-[(ngModel)]="categoriaNueva.categoria">
+                  {{ c.categoria }}
 
-</div>
+                </option>
 
-<button
-type="button"
-class="btn btn-success btn-sm me-2"
-(click)="guardarCategoria()">
+              </select>
 
-Guardar
+              <button
+                type="button"
+                class="btn btn-outline-primary"
+                title="Nueva Categoría"
+                (click)="mostrarCategoria=!mostrarCategoria">
 
-</button>
+                <i class="bi bi-plus-lg"></i>
 
-<button
-type="button"
-class="btn btn-secondary btn-sm"
-(click)="mostrarCategoria=false">
+              </button>
 
-Cancelar
+            </div>
 
-</button>
+            <!-- Formulario Nueva Categoría -->
+            <div
+              class="card mt-2 w-100"
+              *ngIf="mostrarCategoria">
 
-</div>
+              <div class="card-body">
 
-</div>
+                <div class="mb-3">
 
-</div>
+                  <label class="form-label">
+                    Nueva Categoría
+                  </label>
 
-</div>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="categoriaNueva"
+                    [(ngModel)]="categoriaNueva.categoria">
 
-<div class="mb-3">
-<label class="form-label">
-Título
-</label>
+                </div>
 
-<input
-type="text"
-class="form-control"
-name="titulo"
-[(ngModel)]="libroEditar.titulo"
-required>
-</div>
-<div class="mb-3">
-<label class="form-label">
-Editorial
-</label>
-<input
-type="text"
-class="form-control"
-name="editorial"
-[(ngModel)]="libroEditar.editorial"
-required>
+                <button
+                  type="button"
+                  class="btn btn-success btn-sm me-2"
+                  (click)="guardarCategoria()">
 
-</div>
-<div class="row">
-<div class="col-md-6">
-<div class="mb-3">
+                  Guardar
 
-<label class="form-label">
-Cantidad de Páginas
-</label>
+                </button>
 
-<input
-type="number"
-class="form-control"
-name="paginas"
-[(ngModel)]="libroEditar.paginas"
-required>
-</div>
-</div>
-<div class="col-md-6">
-<div class="mb-3">
-<label class="form-label">
-Año de Lanzamiento
-</label>
-<input
-type="number"
-class="form-control"
-name="lanzamiento"
-[(ngModel)]="libroEditar.lanzamiento"
-required>
-</div>
-</div>
-</div>
-<div class="text-end mt-3">
-<button type="button" class="btn btn-secondary me-2" (click)="mostrarFormulario=false"> Cancelar </button>
-<button type="submit" class="btn btn-success" [disabled]="miForm.invalid"><i class="bi bi-check-circle me-2"></i>Guardar</button>
-</div>
-</form>
-</div>
-</div>
+                <button
+                  type="button"
+                  class="btn btn-secondary btn-sm"
+                  (click)="mostrarCategoria=false">
+
+                  Cancelar
+
+                </button>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- ========================= -->
+        <!-- DATOS DEL LIBRO -->
+        <!-- ========================= -->
+
+        <div class="mb-3">
+
+          <label class="form-label">
+            Título
+          </label>
+
+          <input
+            type="text"
+            class="form-control"
+            name="titulo"
+            [(ngModel)]="libroEditar.titulo"
+            required>
+
+        </div>
+
+        <div class="mb-3">
+
+          <label class="form-label">
+            Editorial
+          </label>
+
+          <input
+            type="text"
+            class="form-control"
+            name="editorial"
+            [(ngModel)]="libroEditar.editorial"
+            required>
+
+        </div>
+
+        <div class="row">
+
+          <div class="col-md-6">
+
+            <div class="mb-3">
+
+              <label class="form-label">
+                Cantidad de Páginas
+              </label>
+
+              <input
+                type="number"
+                class="form-control"
+                name="paginas"
+                [(ngModel)]="libroEditar.paginas"
+                required>
+
+            </div>
+
+          </div>
+
+          <div class="col-md-6">
+
+            <div class="mb-3">
+
+              <label class="form-label">
+                Año de Lanzamiento
+              </label>
+
+              <input
+                type="number"
+                class="form-control"
+                name="lanzamiento"
+                [(ngModel)]="libroEditar.lanzamiento"
+                required>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- ========================= -->
+        <!-- BOTONES -->
+        <!-- ========================= -->
+
+        <div class="text-end mt-3">
+
+          <button
+            type="button"
+            class="btn btn-secondary me-2"
+            (click)="mostrarFormulario=false">
+
+            Cancelar
+
+          </button>
+
+          <button
+            type="submit"
+            class="btn btn-success"
+            [disabled]="miForm.invalid">
+
+            <i class="bi bi-check-circle me-2"></i>
+            Guardar
+
+          </button>
+
+        </div>
+
+      </form>
+
+    </div>
+
+  </div>
+
 </div>
