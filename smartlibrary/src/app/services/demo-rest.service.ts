@@ -48,17 +48,25 @@ export class DemoRest {
 
   // AUTOR
   getAutores(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseUrl}/autor`);
+    return this.http.get<any[]>(`${this.baseUrl}/autores`);
   }
   saveAutor(autor: any): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/autor`, autor);
+    return this.http.post<any>(`${this.baseUrl}/autores`, autor);
   }
 
   // CATEGORIA
   getCategorias(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseUrl}/categoria`);
+    return this.http.get<any[]>(`${this.baseUrl}/categorias`);
   }
   saveCategoria(categoria: any): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/categoria`, categoria);
+    return this.http.post<any>(`${this.baseUrl}/categorias`, categoria);
+  }
+  
+  updateLibro(id: number, libro: any) {
+    return this.http.put<any>(`${this.baseUrl}/libro/${id}`, libro);
+  }
+
+  deleteLibro(id: number) {
+    return this.http.delete(`${this.baseUrl}/libro/${id}`);
   }
 }
