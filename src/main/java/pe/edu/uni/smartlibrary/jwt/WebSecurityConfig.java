@@ -40,8 +40,8 @@ public class WebSecurityConfig {
                 		        "/usuario/**",
                 		        "/libro/**",
                 		        "/prestamo/**",
-                		        "/autor/**",
-                		        "/categoria/**"
+                		        "/autores/**",
+                		        "/categorias/**"
 
                 		).permitAll()
                 .anyRequest().authenticated()
