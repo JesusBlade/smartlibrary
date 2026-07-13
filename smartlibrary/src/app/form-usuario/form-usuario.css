@@ -1,72 +1,200 @@
-form {
-    margin: 20px;
-    padding: 20px;
-    border: 1px solid #ccc;
-    max-width: 400px;
-    font-family: Arial, sans-serif;
+.card {
+    border-radius: 12px;
 }
 
-div {
-    margin-bottom: 15px;
-}
-
-label {
-    display: block;
+.card-header {
+    font-size: 18px;
     font-weight: bold;
-    margin-bottom: 5px;
+    padding: 16px 28px;
 }
 
-input,
-select {
-    width: 100%;
-    padding: 8px;
-    box-sizing: border-box;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+.form-label {
+    font-weight: 600;
 }
 
-input.ng-invalid.ng-touched,
-select.ng-invalid.ng-touched {
-    border-color: red;
+h2 {
+    color: #212529;
 }
 
-.error-msg {
-    color: red;
-    font-size: 12px;
-    margin-top: 5px;
+.text-danger {
+    font-size: 14px;
 }
 
-button {
-    padding: 10px 15px;
-    background-color: #28a745;
-    color: white;
-    border: none;
-    cursor: pointer;
-    border-radius: 4px;
-    width: 100%;
-    font-weight: bold;
+.table-responsive {
+    overflow-x: auto;
 }
 
-button:hover {
-    background-color: #218838;
+.form-control,
+.form-select {
+    border-radius: 8px;
 }
 
-button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
+/* BOTONES */
+
+.btn-primary,
+.btn-success {
+    background: #1f6feb !important;
+    border-color: #1f6feb !important;
+    border-radius: 8px;
 }
 
-.person-input-group {
+.btn-primary:hover,
+.btn-success:hover {
+    background: #0d5bd7 !important;
+    border-color: #0d5bd7 !important;
+}
+
+.btn-secondary {
+    border-radius: 8px;
+}
+
+/* MODAL GENERAL */
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    width: 100vw;
+    height: 100vh;
+
+    background: rgba(0, 0, 0, 0.55);
+
     display: flex;
-    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    z-index: 9999;
+}
+
+/* MODAL USUARIO */
+
+.modal-formulario {
+    width: 900px;
+    max-width: 95%;
+
+    background: white;
+
+    border-radius: 12px;
+
+    overflow: hidden;
+
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.35);
+
+    animation: aparecer .2s ease;
+}
+
+.modal-formulario .card-header {
+    background: #1f6feb !important;
+    color: white;
+    padding: 18px 24px;
+}
+
+.modal-formulario .card-body {
+    padding: 25px;
+}
+
+.modal-formulario h5 {
+    margin: 0;
+    display: flex;
+    align-items: center;
     gap: 10px;
 }
 
-.person-select {
-    flex: 0.6;
+/* MODAL PERSONA */
+
+.modal-persona {
+    width: 700px;
+    max-width: 90%;
+
+    background: white;
+
+    border-radius: 12px;
+
+    overflow: hidden;
+
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.40);
+
+    position: relative;
+
+    z-index: 10000;
+
+    animation: aparecer .2s ease;
 }
 
-.person-button {
-    flex: 0.4;
-    margin-top: 10px;
+.modal-persona .card-header {
+    background: #1f6feb !important;
+    color: white;
+
+    padding: 18px 24px;
+}
+
+.modal-persona .card-body {
+    padding: 25px 30px;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-persona h5 {
+    margin: 0;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.modal-persona .mb-3 {
+    width: 100%;
+}
+
+.modal-persona .form-label {
+    display: block;
+
+    width: 100%;
+
+    text-align: left !important;
+
+    margin-bottom: 8px;
+
+    font-weight: 600;
+}
+
+.modal-persona .form-control {
+    width: 100%;
+}
+
+.modal-persona .btn-success {
+    width: 100%;
+}
+
+.modal-persona .btn-secondary {
+    width: 100%;
+}
+
+/* BOTÓN CERRAR */
+
+.btn-close {
+    margin-left: 20px;
+    opacity: 1;
+}
+
+.btn-close:hover {
+    transform: scale(1.1);
+}
+
+/* ANIMACIÓN */
+
+@keyframes aparecer {
+
+    from {
+        opacity: 0;
+        transform: scale(.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+
 }
