@@ -5,9 +5,9 @@ form {
     max-width: 400px;
 }
 
-div {
+/*div {
     margin-bottom: 15px;
-}
+}*/
 
 label {
     display: block;
@@ -27,6 +27,7 @@ input.ng-invalid.ng-touched {
     border-color: red;
 }
 
+/*
 button {
     padding: 10px 15px;
     background-color: #6f42c1;
@@ -36,7 +37,7 @@ button {
     border-radius: 4px;
     width: 100%;
     font-weight: bold;
-}
+}*/
 
 button:hover {
     background-color: #59339d;

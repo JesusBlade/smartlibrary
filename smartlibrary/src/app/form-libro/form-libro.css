@@ -35,7 +35,7 @@ select.ng-invalid.ng-touched {
     margin-top: 5px;
 }
 
-button {
+/*button {
     padding: 10px 15px;
     background-color: #fd7e14;
     color: white;
@@ -44,7 +44,7 @@ button {
     border-radius: 4px;
     width: 100%;
     font-weight: bold;
-}
+}*/
 
 button:hover {
     background-color: #e86e04;

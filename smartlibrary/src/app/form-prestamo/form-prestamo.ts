@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { DemoRest } from '../services/demo-rest.service';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-form-prestamo',
@@ -23,7 +24,7 @@ export class FormPrestamo implements OnInit {
   idPrestamoEditar=0;
   prestamoEditar:any={};
 
-  constructor(private demoRest: DemoRest) { }
+  constructor(private demoRest: DemoRest, private cdr: ChangeDetectorRef) { }
 
   ngOnInit() {
     this.cargarUsuarios();
@@ -34,28 +35,40 @@ export class FormPrestamo implements OnInit {
 
   cargarUsuarios() {
     this.demoRest.getUsuarios().subscribe({
-      next: (data) => this.usuarios = data,
+      next: (data) => {
+        this.usuarios = data;
+        this.cdr.detectChanges();
+      },
       error: (err) => console.error(err)
     });
   }
 
   cargarPersonas() {
     this.demoRest.getPersonas().subscribe({
-      next: (data) => this.personas = data,
+      next: (data) => {
+        this.personas = data;
+        this.cdr.detectChanges();
+      },
       error: (err) => console.error(err)
     });
   }
 
   cargarLibros() {
     this.demoRest.getLibros().subscribe({
-      next: (data) => this.libros = data,
+      next: (data) => {
+        this.libros = data;
+        this.cdr.detectChanges();
+      },
       error: (err) => console.error(err)
     });
   }
-  
+
   cargarPrestamos() {
     this.demoRest.getPrestamos().subscribe({
-      next: (data) => this.prestamos = data,
+      next: (data) => {
+        this.prestamos = data;
+        this.cdr.detectChanges();
+      },
       error: (err) => console.error(err)
     });
   }

@@ -3,6 +3,8 @@ import { NgForm, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { DemoRest } from '../services/demo-rest.service';
 
+import { ChangeDetectorRef } from '@angular/core';
+
 @Component({
   selector: 'app-form-usuario',
   imports: [CommonModule, FormsModule],
@@ -27,7 +29,7 @@ export class FormUsuario implements OnInit {
     correo: ''
   };
 
-  constructor(private demoRest: DemoRest) { }
+  constructor(private demoRest: DemoRest, private cdr: ChangeDetectorRef) { }
 
   ngOnInit() {
     this.cargarPersonas();
@@ -38,6 +40,7 @@ export class FormUsuario implements OnInit {
     this.demoRest.getPersonas().subscribe({
       next: (data) => {
         this.personas = data;
+		this.cdr.detectChanges();
       },
       error: (err) => console.error(err)
     });
@@ -47,6 +50,7 @@ export class FormUsuario implements OnInit {
     this.demoRest.getUsuarios().subscribe({
       next: (data) => {
         this.usuarios = data;
+		this.cdr.detectChanges();
       },
       error: (err) => console.error(err)
     });

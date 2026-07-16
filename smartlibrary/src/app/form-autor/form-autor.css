@@ -6,10 +6,6 @@ form {
     font-family: Arial, sans-serif;
 }
 
-div {
-    margin-bottom: 15px;
-}
-
 label {
     display: block;
     font-weight: bold;
@@ -36,22 +32,24 @@ select.ng-invalid.ng-touched {
     margin-top: 5px;
 }
 
-button {
-    padding: 10px 15px;
-    background-color: #fd7e14;
-    color: white;
-    border: none;
-    cursor: pointer;
-    border-radius: 4px;
-    width: 100%;
-    font-weight: bold;
+.modal-header .btn-close {
+    margin: 0;
+    padding: 0.5rem;
+    opacity: 1;
+    background-size: 0.9rem;
 }
 
-button:hover {
-    background-color: #e86e04;
+.modal-header .btn-close:hover {
+    opacity: 0.9;
 }
 
-button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
+
+.table td {
+    padding-top: 0.95rem;
+    padding-bottom: 0.95rem;
+    vertical-align: middle;
 }
+
+
+
+

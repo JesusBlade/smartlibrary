@@ -1,16 +1,37 @@
-<header class="navbar" *ngIf="isLoggedIn()">
-  <div class="logo">
-    SmartLibrary
-  </div>
+<header class="navbar navbar-expand-lg navbar-dark" *ngIf="isLoggedIn()">
+  <div class="container-fluid">
+    <a class="navbar-brand logo d-flex align-items-center gap-2" routerLink="/formautor">
+      <i class="bi bi-book-half"></i>
+      <span>SmartLibrary</span>
+    </a>
 
-  <nav>
-    <a routerLink="/formlibro">Libros</a>
-    <a routerLink="/formusuario">Usuarios</a>
-    <a routerLink="/formprestamo">Préstamos</a>
-  </nav>
-  <button class="logout-btn" (click)="logout()">
-    Cerrar Sesión
-  </button>
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="mainNavbar">
+      <nav class="navbar-nav ms-auto d-flex align-items-center gap-1">
+        <a class="nav-link" routerLink="/formautor" routerLinkActive="active">
+          <i class="bi bi-person-lines-fill me-1"></i>Autores
+        </a>
+        <a class="nav-link" routerLink="/formcategoria" routerLinkActive="active">
+          <i class="bi bi-tags me-1"></i>Categorías
+        </a>
+        <a class="nav-link" routerLink="/formlibro" routerLinkActive="active">
+          <i class="bi bi-book me-1"></i>Libros
+        </a>
+        <a class="nav-link" routerLink="/formusuario" routerLinkActive="active">
+          <i class="bi bi-people me-1"></i>Usuarios
+        </a>
+        <a class="nav-link" routerLink="/formprestamo" routerLinkActive="active">
+          <i class="bi bi-arrow-left-right me-1"></i>Préstamos
+        </a>
+        <button class="btn logout-btn ms-2" (click)="logout()">
+          <i class="bi bi-box-arrow-right me-2"></i>Cerrar Sesión
+        </button>
+      </nav>
+    </div>
+  </div>
 </header>
 
 <main class="contenido">

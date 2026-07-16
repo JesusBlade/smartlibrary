@@ -3,6 +3,8 @@ import { NgForm, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { DemoRest } from '../services/demo-rest.service';
 
+import { ChangeDetectorRef } from '@angular/core';
+
 
 @Component({
   selector: 'app-form-libro',
@@ -35,7 +37,7 @@ export class FormLibro implements OnInit {
   };
   
 
-  constructor(private demoRest: DemoRest) { }
+  constructor(private demoRest: DemoRest, private cdr: ChangeDetectorRef) { }
 
   ngOnInit() {
     this.cargarAutores();
@@ -47,6 +49,7 @@ export class FormLibro implements OnInit {
     this.demoRest.getAutores().subscribe({
       next: (data) => {
         this.autores = data;
+		this.cdr.detectChanges();
       },
       error: (err) => console.error(err)
     });
@@ -56,6 +59,7 @@ export class FormLibro implements OnInit {
     this.demoRest.getCategorias().subscribe({
       next: (data) => {
         this.categorias = data;
+		this.cdr.detectChanges();
       },
       error: (err) => console.error(err)
     });
@@ -65,6 +69,7 @@ export class FormLibro implements OnInit {
     this.demoRest.getLibros().subscribe({
       next: (data) => {
         this.libros = data;
+		this.cdr.detectChanges();
       },
       error: (err) => console.error(err)
     });

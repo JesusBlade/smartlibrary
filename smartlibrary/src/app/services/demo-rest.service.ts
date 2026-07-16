@@ -69,6 +69,13 @@ export class DemoRest {
   saveAutor(autor: any): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}/autores`, autor);
   }
+  updateAutor(id: number, autor: any) {
+    return this.http.put<any>(`${this.baseUrl}/autores/${id}`, autor);
+  }
+
+  deleteAutor(id: number) {
+    return this.http.delete(`${this.baseUrl}/autores/${id}`);
+  }
 
   // CATEGORIA
   getCategorias(): Observable<any[]> {
@@ -76,6 +83,13 @@ export class DemoRest {
   }
   saveCategoria(categoria: any): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}/categorias`, categoria);
+  }
+  updateCategoria(id: number, categoria: any) {
+    return this.http.put<any>(`${this.baseUrl}/categorias/${id}`, categoria);
+  }
+
+  deleteCategoria(id: number) {
+    return this.http.delete(`${this.baseUrl}/categorias/${id}`);
   }
   
 }

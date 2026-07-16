@@ -1,61 +1,200 @@
+:root {
+  --primary: #4f46e5;
+  --primary-dark: #3730a3;
+  --secondary: #2563eb;
+  --accent: #14b8a6;
+  --accent-2: #f59e0b;
+  --bg: #f5f7ff;
+  --card: #ffffff;
+  --text: #0f172a;
+  --muted: #64748b;
+  --border: #e2e8f0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
 body {
-  font-family: Arial, sans-serif;
-  background-color: #f4f4f9;
   margin: 0;
-  padding: 20px;
+  min-height: 100%;
+  font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+  background: linear-gradient(135deg, #f8faff 0%, #eef2ff 100%);
+  color: var(--text);
 }
 
-.form-container {
-  max-width: 500px;
-  margin: 0 auto;
-  background: white;
-  padding: 30px;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+app-root {
+  display: block;
 }
 
-.form-container h2 {
-  text-align: center;
-  color: #333;
+.container-fluid {
+  padding: 1.25rem 1.5rem 2rem;
 }
 
-.form-group {
-  margin-bottom: 15px;
-  display: flex;
-  flex-direction: column;
+.page-shell {
+  padding: 0.35rem 0 1.25rem;
 }
 
-.form-group label {
-  margin-bottom: 5px;
-  font-weight: bold;
-  color: #555;
+.page-header {
+  background: linear-gradient(135deg, rgba(79, 70, 229, 0.14), rgba(37, 99, 235, 0.1));
+  border: 1px solid rgba(79, 70, 229, 0.12);
+  border-radius: 1.25rem;
+  padding: 1.2rem 1.35rem;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+  backdrop-filter: blur(10px);
 }
 
-.form-group input,
-.form-group select {
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 16px;
+.page-title {
+  font-size: clamp(1.3rem, 2vw, 1.8rem);
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+  color: #1e293b;
 }
 
-button {
-  width: 100%;
-  padding: 12px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  font-size: 16px;
-  cursor: pointer;
-  margin-top: 10px;
+.page-subtitle {
+  color: var(--muted);
+  margin-bottom: 0;
 }
 
-button:disabled {
-  background-color: #cccccc;
-  cursor: not-allowed;
+.page-card {
+  border: 0;
+  border-radius: 1.25rem;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+  background: var(--card);
 }
 
-button:hover:not(:disabled) {
-  background-color: #0056b3;
+.page-card .card-body {
+  padding: 1.25rem 1.35rem;
+}
+
+.page-card .card-header {
+  border-bottom: 0;
+  padding: 1rem 1.25rem;
+}
+
+.table thead th {
+  background: linear-gradient(135deg, #f8f9ff, #eef2ff);
+  color: #334155;
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+.table td,
+.table th {
+  vertical-align: middle;
+}
+
+.btn {
+  border-radius: 999px;
+  padding: 0.65rem 1rem;
+  font-weight: 600;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(79, 70, 229, 0.14);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  border: 0;
+}
+
+.btn-success {
+  background: linear-gradient(135deg, var(--accent), #0f766e);
+  border: 0;
+}
+
+.btn-outline-primary {
+  border-width: 1.5px;
+}
+
+.btn-outline-danger {
+  border-width: 1.5px;
+}
+
+.form-label {
+  font-weight: 600;
+  color: #334155;
+  margin-bottom: 0.45rem;
+}
+
+.form-control,
+.form-select {
+  border-radius: 0.9rem;
+  border: 1px solid var(--border);
+  padding: 0.7rem 0.85rem;
+  box-shadow: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 0.2rem rgba(79, 70, 229, 0.15);
+}
+
+.input-group-text {
+  border-radius: 0.9rem 0 0 0.9rem;
+  background: #f8fafc;
+  border-color: var(--border);
+}
+
+.input-group .form-control {
+  border-radius: 0 0.9rem 0.9rem 0;
+}
+
+.badge {
+  border-radius: 999px;
+  padding: 0.55rem 0.8rem;
+}
+
+.modal-content {
+  border: 0;
+  border-radius: 1.2rem;
+  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.24);
+  overflow: hidden;
+}
+
+.modal-header {
+  padding: 1rem 1.25rem;
+}
+
+.modal-body {
+  padding: 1.1rem 1.25rem 1.25rem;
+}
+
+.modal.fade .modal-dialog {
+  transition: transform 0.25s ease-out, opacity 0.25s ease-out;
+  transform: translateY(-18px);
+}
+
+.modal.show .modal-dialog {
+  transform: translateY(0);
+}
+
+.modal-backdrop.fade {
+  opacity: 0;
+}
+
+.modal-backdrop.show {
+  opacity: 0.55;
+}
+
+@media (max-width: 768px) {
+  .container-fluid {
+    padding: 1rem;
+  }
+
+  .page-header {
+    padding: 1rem;
+  }
+
+  .table-responsive {
+    border-radius: 0.9rem;
+  }
 }
