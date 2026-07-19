@@ -25,7 +25,8 @@
         <div class="col-md-8">
           <div class="input-group">
             <span class="input-group-text"><i class="bi bi-search"></i></span>
-            <input type="text" class="form-control" placeholder="Buscar por usuario, persona o libro..." name="buscar" [(ngModel)]="textoBusqueda">
+            <input type="text" class="form-control" placeholder="Buscar por usuario, persona o libro..." name="buscar"
+              [(ngModel)]="textoBusqueda">
           </div>
         </div>
         <div class="col-md-4 text-md-end">
@@ -41,7 +42,9 @@
               <th><i class="bi bi-person me-1"></i>Persona</th>
               <th><i class="bi bi-book me-1"></i>Libro</th>
               <th class="text-center"><i class="bi bi-calendar me-1"></i>F. Préstamo</th>
-              <th class="text-center"><i class="bi bi-calendar-check me-1"></i>F. Devolución</th>
+              <th class="text-center"><i class="bi bi-calendar-check me-1"></i>F. límite de devolución</th>
+              <th class="text-center"><i class="bi bi-calendar2-check me-1"></i>F. devolución real</th>
+              <th class="text-center"><i class="bi bi-check-circle me-1"></i>Estado</th>
               <th class="text-center"><i class="bi bi-cash me-1"></i>Multa</th>
               <th class="text-center">Acciones</th>
             </tr>
@@ -53,18 +56,32 @@
               <td>{{ obtenerLibro(prestamo.idLibro) }}</td>
               <td class="text-center">{{ prestamo.fechaPrestamo }}</td>
               <td class="text-center">{{ prestamo.fechaDevolucion }}</td>
+              <td class="text-center">
+                {{ prestamo.fechaDevolucionReal || '-' }}
+              </td>
+              <td class="text-center">
+                <span class="badge" [ngClass]="prestamo.estado === 'DEVUELTO' ? 'bg-success' : 'bg-warning text-dark'">
+                  {{ prestamo.estado }}
+                </span>
+              </td>
               <td class="text-center">{{ prestamo.multa }}</td>
               <td class="text-center">
-                <button type="button" class="btn btn-outline-primary btn-sm me-2" title="Editar" (click)="editar(prestamo)">
+                <button type="button" class="btn btn-outline-primary btn-sm me-2" title="Editar"
+                  (click)="editar(prestamo)" [disabled]="prestamo.estado === 'DEVUELTO'">
                   <i class="bi bi-pencil"></i>
                 </button>
-                <button type="button" class="btn btn-outline-danger btn-sm" title="Eliminar" (click)="eliminar(prestamo.id)">
+                <button type="button" class="btn btn-outline-danger btn-sm" title="Eliminar"
+                  (click)="eliminar(prestamo.id)">
                   <i class="bi bi-trash"></i>
+                </button>
+                <button type="button" class="btn btn-outline-success btn-sm ms-2" title="Devolver"
+                  (click)="devolver(prestamo)" [disabled]="prestamo.estado === 'DEVUELTO'">
+                  <i class="bi bi-check2-circle"></i>
                 </button>
               </td>
             </tr>
             <tr *ngIf="prestamos.length == 0">
-              <td colspan="7" class="text-center py-5">
+              <td colspan="9" class="text-center py-5">
                 <i class="bi bi-journal-x fs-1 text-secondary"></i>
                 <p class="mt-3 mb-0 text-muted">No existen préstamos registrados.</p>
               </td>
@@ -75,7 +92,8 @@
     </div>
   </div>
 
-  <div class="modal fade" [class.show]="mostrarFormulario" [style.display]="mostrarFormulario ? 'block' : 'none'" tabindex="-1" role="dialog" aria-modal="true">
+  <div class="modal fade" [class.show]="mostrarFormulario" [style.display]="mostrarFormulario ? 'block' : 'none'"
+    tabindex="-1" role="dialog" aria-modal="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
       <div class="modal-content">
         <div class="modal-header bg-primary text-white d-flex justify-content-between align-items-center">
@@ -90,7 +108,8 @@
             <div class="row g-3">
               <div class="col-lg-6">
                 <label class="form-label">Usuario</label>
-                <select class="form-select" name="idUsuario" [(ngModel)]="prestamoEditar.idUsuario" (change)="seleccionarUsuario()" required>
+                <select class="form-select" name="idUsuario" [(ngModel)]="prestamoEditar.idUsuario"
+                  (change)="seleccionarUsuario()" required>
                   <option value="">Seleccione un usuario</option>
                   <option *ngFor="let u of usuarios" [value]="u.id">{{ u.user }}</option>
                 </select>
@@ -113,17 +132,14 @@
             <div class="row g-3 mt-1">
               <div class="col-md-6">
                 <label class="form-label">Fecha de Préstamo</label>
-                <input type="date" class="form-control" name="fechaPrestamo" [(ngModel)]="prestamoEditar.fechaPrestamo" required>
+                <input type="date" class="form-control" name="fechaPrestamo" [(ngModel)]="prestamoEditar.fechaPrestamo"
+                  required>
               </div>
               <div class="col-md-6">
-                <label class="form-label">Fecha de Devolución</label>
-                <input type="date" class="form-control" name="fechaDevolucion" [(ngModel)]="prestamoEditar.fechaDevolucion" required>
+                <label class="form-label">F. límite de devolución</label>
+                <input type="date" class="form-control" name="fechaDevolucion"
+                  [(ngModel)]="prestamoEditar.fechaDevolucion" required>
               </div>
-            </div>
-
-            <div class="mt-3">
-              <label class="form-label">Multa</label>
-              <input type="number" class="form-control" name="multa" [(ngModel)]="prestamoEditar.multa" required>
             </div>
 
             <div class="text-end mt-4">

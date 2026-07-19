@@ -61,6 +61,11 @@ export class DemoRest {
   deletePrestamo(id: number) {
     return this.http.delete(`${this.baseUrl}/prestamo/${id}`);
   }
+  
+  // PROCESO DE NEGOCIO: DEVOLVER PRÉSTAMO
+  devolverPrestamo(id: number) {
+    return this.http.put<any>(`${this.baseUrl}/prestamo/${id}/devolver`, {});
+  }
 
   // AUTOR
   getAutores(): Observable<any[]> {

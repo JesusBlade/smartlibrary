@@ -169,4 +169,29 @@ export class FormPrestamo implements OnInit {
       console.log(this.prestamoEditar.idPersona);
     }
   }
+  
+  // PROCESO DE NEGOCIO: REGISTRAR LA DEVOLUCIÓN DE UN PRÉSTAMO
+  devolver(prestamo: any) {
+
+    // Confirmar la devolución del préstamo
+    if (!confirm('¿Registrar la devolución del préstamo?')) {
+      return;
+    }
+
+    // Llamar al backend para registrar la devolución
+    this.demoRest.devolverPrestamo(prestamo.id).subscribe({
+      next: (res) => {
+        console.log('Préstamo devuelto:', res);
+
+        // Actualizar la tabla de préstamos
+        this.cargarPrestamos();
+      },
+      error: (err) => {
+        console.error(err);
+        alert('No se pudo registrar la devolución.');
+      }
+    });
+  }
+
+
 }

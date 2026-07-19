@@ -1,6 +1,8 @@
 package pe.edu.uni.smartlibrary.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -22,6 +24,11 @@ public class Prestamo {
     private Long idLibro;
     private LocalDate fechaPrestamo;
     private LocalDate fechaDevolucion;
+    private LocalDate fechaDevolucionReal;
+    
+    @Enumerated(EnumType.STRING)
+    private EstadoPrestamo estado;
+    
     private double multa;
 
     public Prestamo() {
@@ -47,4 +54,20 @@ public class Prestamo {
 
     public double getMulta() { return multa; }
     public void setMulta(double multa) { this.multa = multa; }
+    
+    public LocalDate getFechaDevolucionReal() {
+        return fechaDevolucionReal;
+    }
+
+    public void setFechaDevolucionReal(LocalDate fechaDevolucionReal) {
+        this.fechaDevolucionReal = fechaDevolucionReal;
+    }
+
+    public EstadoPrestamo getEstado() {
+        return estado;
+    }
+
+    public void setEstado(EstadoPrestamo estado) {
+        this.estado = estado;
+    }
 }
