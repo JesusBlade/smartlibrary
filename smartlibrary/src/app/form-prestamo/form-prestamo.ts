@@ -26,11 +26,26 @@ export class FormPrestamo implements OnInit {
 
   constructor(private demoRest: DemoRest, private cdr: ChangeDetectorRef) { }
 
+  // Obtiene el tipo de usuario de la sesión actual
+  obtenerTipoUsuario(): string | null {
+    return localStorage.getItem('tipoUsuario');
+  }
+
+  // Verifica si el usuario autenticado es administrador
+  esAdmin(): boolean {
+    return this.obtenerTipoUsuario() === 'ADMIN';
+  }
+
+  // Verifica si el usuario autenticado es cliente
+  esCliente(): boolean {
+    return this.obtenerTipoUsuario() === 'CLIENTE';
+  }
+
   ngOnInit() {
     this.cargarUsuarios();
     this.cargarPersonas();
     this.cargarLibros();
-	this.cargarPrestamos();
+    this.cargarPrestamos();
   }
 
   cargarUsuarios() {
@@ -123,12 +138,23 @@ export class FormPrestamo implements OnInit {
     }
   }
   
+  // Filtra los préstamos de acuerdo al texto de búsqueda y restringe según el rol
   prestamosFiltrados() {
+    let prestamosVisibles = this.prestamos;
+    
+    // Si es un cliente, restringimos la lista para mostrar solo sus propios préstamos
+    if (this.esCliente()) {
+      const miUsuario = localStorage.getItem('usuario');
+      prestamosVisibles = this.prestamos.filter(
+        p => this.obtenerUsuario(p.idUsuario) === miUsuario
+      );
+    }
+
     if (!this.textoBusqueda) {
-      return this.prestamos;
+      return prestamosVisibles;
     }
     const texto = this.textoBusqueda.toLowerCase();
-    return this.prestamos.filter((prestamo: any) =>
+    return prestamosVisibles.filter((prestamo: any) =>
       this.obtenerUsuario(prestamo.idUsuario)
         .toLowerCase()
         .includes(texto)

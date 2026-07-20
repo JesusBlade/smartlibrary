@@ -39,10 +39,25 @@ export class FormLibro implements OnInit {
 
   constructor(private demoRest: DemoRest, private cdr: ChangeDetectorRef) { }
 
+  // Obtiene el tipo de usuario de la sesión actual
+  obtenerTipoUsuario(): string | null {
+    return localStorage.getItem('tipoUsuario');
+  }
+
+  // Verifica si el usuario autenticado es administrador
+  esAdmin(): boolean {
+    return this.obtenerTipoUsuario() === 'ADMIN';
+  }
+
+  // Verifica si el usuario autenticado es cliente
+  esCliente(): boolean {
+    return this.obtenerTipoUsuario() === 'CLIENTE';
+  }
+
   ngOnInit() {
     this.cargarAutores();
     this.cargarCategorias();
-	this.cargarLibros();
+    this.cargarLibros();
   }
   
   cargarAutores() {

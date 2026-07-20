@@ -1,6 +1,6 @@
 <header class="navbar navbar-expand-lg navbar-dark" *ngIf="isLoggedIn()">
   <div class="container-fluid">
-    <a class="navbar-brand logo d-flex align-items-center gap-2" routerLink="/formautor">
+    <a class="navbar-brand logo d-flex align-items-center gap-2" [routerLink]="esAdmin() ? '/formprestamo' : '/formlibro'">
       <i class="bi bi-book-half"></i>
       <span>SmartLibrary</span>
     </a>
@@ -13,37 +13,56 @@
 
       <nav class="navbar-nav ms-auto d-flex align-items-center gap-1">
 
+        <!-- Menú de Libros: ADMIN ve toda la gestión, CLIENTE ve solo catálogo -->
         <div class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="librosDropdown" role="button" data-bs-toggle="dropdown"
             aria-expanded="false">
             <i class="bi bi-book me-1"></i>Libros
           </a>
           <ul class="dropdown-menu dropdown-menu-end">
-            <li><a class="dropdown-item" routerLink="/formlibro" routerLinkActive="active"><i
-                  class="bi bi-book me-2"></i>Libros</a></li>
-            <li><a class="dropdown-item" routerLink="/formautor" routerLinkActive="active"><i
-                  class="bi bi-person-lines-fill me-2"></i>Autores</a></li>
-            <li><a class="dropdown-item" routerLink="/formcategoria" routerLinkActive="active"><i
-                  class="bi bi-tags me-2"></i>Categorías</a></li>
+            <ng-container *ngIf="esAdmin()">
+              <li><a class="dropdown-item" routerLink="/formlibro" routerLinkActive="active"><i
+                    class="bi bi-book me-2"></i>Libros</a></li>
+              <li><a class="dropdown-item" routerLink="/formautor" routerLinkActive="active"><i
+                    class="bi bi-person-lines-fill me-2"></i>Autores</a></li>
+              <li><a class="dropdown-item" routerLink="/formcategoria" routerLinkActive="active"><i
+                    class="bi bi-tags me-2"></i>Categorías</a></li>
+            </ng-container>
+            <ng-container *ngIf="esCliente()">
+              <li><a class="dropdown-item" routerLink="/formlibro" routerLinkActive="active"><i
+                    class="bi bi-journal-album me-2"></i>Catálogo de Libros</a></li>
+            </ng-container>
           </ul>
         </div>
 
+        <!-- Menú de Préstamos: ADMIN ve gestión global, CLIENTE ve mis préstamos/multas -->
         <div class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="prestamosDropdown" role="button" data-bs-toggle="dropdown"
             aria-expanded="false">
             <i class="bi bi-journal-text me-1"></i>Préstamos
           </a>
           <ul class="dropdown-menu dropdown-menu-end">
-            <li><a class="dropdown-item" routerLink="/formprestamo" routerLinkActive="active">
-                <i class="bi bi-pencil-square me-2"></i>Gestionar préstamos</a></li>
-            <li><a class="dropdown-item" routerLink="/formprestamo/vencidos" routerLinkActive="active">
-                <i class="bi bi-clock-history me-2"></i>Préstamos vencidos</a></li>
-            <li><a class="dropdown-item" routerLink="/formprestamo/multas" routerLinkActive="active">
-                <i class="bi bi-cash-coin me-2"></i>Multas pendientes</a></li>
+            <ng-container *ngIf="esAdmin()">
+              <li><a class="dropdown-item" routerLink="/formprestamo" routerLinkActive="active">
+                  <i class="bi bi-pencil-square me-2"></i>Gestionar préstamos</a></li>
+              <li><a class="dropdown-item" routerLink="/formprestamo/vencidos" routerLinkActive="active">
+                  <i class="bi bi-clock-history me-2"></i>Préstamos vencidos</a></li>
+              <li><a class="dropdown-item" routerLink="/formprestamo/multas" routerLinkActive="active">
+                  <i class="bi bi-cash-coin me-2"></i>Multas pendientes</a></li>
+            </ng-container>
+            <ng-container *ngIf="esCliente()">
+              <li><a class="dropdown-item" routerLink="/formprestamo" routerLinkActive="active">
+                  <i class="bi bi-journal-bookmark-fill me-2"></i>Mis préstamos</a></li>
+              <li><a class="dropdown-item" routerLink="/formprestamo/vencidos" routerLinkActive="active">
+                  <i class="bi bi-clock-history me-2"></i>Mis préstamos vencidos</a></li>
+              <li><a class="dropdown-item" routerLink="/formprestamo/multas" routerLinkActive="active">
+                  <i class="bi bi-cash-coin me-2"></i>Mis multas</a></li>
+            </ng-container>
           </ul>
         </div>
 
-        <a class="nav-link" routerLink="/formusuario" routerLinkActive="active">
+        <!-- Menú de Usuarios: Exclusivo para ADMINISTRADOR -->
+        <a class="nav-link" routerLink="/formusuario" routerLinkActive="active" *ngIf="esAdmin()">
           <i class="bi bi-people me-1"></i>Usuarios
         </a>
         <button class="btn logout-btn ms-2" (click)="logout()">

@@ -16,6 +16,7 @@ export class Login {
   constructor(private demoRest: DemoRest, private router: Router) {
     localStorage.removeItem('token');
     localStorage.removeItem('usuario');
+    localStorage.removeItem('tipoUsuario');
   }
 
   onSubmit(form: NgForm) {
@@ -25,7 +26,34 @@ export class Login {
         next: (token) => {
           localStorage.setItem('token', token);
           localStorage.setItem('usuario', form.value.user);
-          this.router.navigate(['/formprestamo']);
+
+          // Obtiene la lista de usuarios para identificar el tipo de usuario (ADMIN o CLIENTE)
+          this.demoRest.getUsuarios().subscribe({
+            next: (usuarios) => {
+              const usuarioEncontrado = usuarios.find(u => u.user === form.value.user);
+              if (usuarioEncontrado) {
+                // Almacena el tipo de usuario (ADMIN o CLIENTE) en LocalStorage
+                localStorage.setItem('tipoUsuario', usuarioEncontrado.tipoUsuario);
+                
+                // Redirección condicional: los administradores van a gestión de préstamos, clientes al catálogo de libros
+                if (usuarioEncontrado.tipoUsuario === 'ADMIN') {
+                  this.router.navigate(['/formprestamo']);
+                } else {
+                  this.router.navigate(['/formlibro']);
+                }
+              } else {
+                // Por defecto si no se encuentra en la lista, se asigna perfil CLIENTE
+                localStorage.setItem('tipoUsuario', 'CLIENTE');
+                this.router.navigate(['/formlibro']);
+              }
+            },
+            error: (err) => {
+              console.error('Error al obtener lista de usuarios:', err);
+              // Fallback seguro en caso de error
+              localStorage.setItem('tipoUsuario', 'CLIENTE');
+              this.router.navigate(['/formlibro']);
+            }
+          });
         },
         error: (err) => {
           console.error(err);
@@ -37,6 +65,8 @@ export class Login {
 
   logout() {
     localStorage.removeItem('token');
+    localStorage.removeItem('usuario');
+    localStorage.removeItem('tipoUsuario');
     this.router.navigate(['/login']);
   }
 

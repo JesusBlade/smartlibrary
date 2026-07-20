@@ -1,21 +1,18 @@
-<!-- ========================= -->
-<!-- GESTIÓN DE LIBROS -->
-<!-- ========================= -->
-
 <div class="container-fluid mt-4 page-shell">
 
   <div class="row align-items-center mb-4 page-header">
     <div class="col-md-8">
       <h2 class="page-title">
         <i class="bi bi-book-half text-primary me-2"></i>
-        Gestión de Libros
+        {{ esAdmin() ? 'Gestión de Libros' : 'Catálogo de Libros' }}
       </h2>
       <p class="page-subtitle mb-0">
-        Administra el catálogo de la biblioteca
+        {{ esAdmin() ? 'Administra el catálogo de la biblioteca' : 'Consulta los libros disponibles en la biblioteca' }}
       </p>
     </div>
 
-    <div class="col-md-4 text-md-end mt-3 mt-md-0">
+    <!-- El botón de registrar libro nuevo solo es visible para el administrador -->
+    <div class="col-md-4 text-md-end mt-3 mt-md-0" *ngIf="esAdmin()">
       <button type="button" class="btn btn-primary" (click)="mostrarFormulario=true">
         <i class="bi bi-plus-circle me-2"></i>
         Nuevo Libro
@@ -29,7 +26,8 @@
         <div class="col-md-8">
           <div class="input-group">
             <span class="input-group-text"><i class="bi bi-search"></i></span>
-            <input type="text" class="form-control" placeholder="Buscar por título..." name="buscar" [(ngModel)]="textoBusqueda">
+            <input type="text" class="form-control" placeholder="Buscar por título..." name="buscar"
+              [(ngModel)]="textoBusqueda">
           </div>
         </div>
         <div class="col-md-4 text-md-end">
@@ -47,7 +45,7 @@
               <th><i class="bi bi-building me-1"></i>Editorial</th>
               <th class="text-center"><i class="bi bi-file-earmark-text me-1"></i>Páginas</th>
               <th class="text-center"><i class="bi bi-calendar me-1"></i>Año</th>
-              <th class="text-center">Acciones</th>
+              <th class="text-center" *ngIf="esAdmin()">Acciones</th>
             </tr>
           </thead>
           <tbody>
@@ -58,17 +56,20 @@
               <td>{{ libro.editorial }}</td>
               <td class="text-center">{{ libro.paginas }}</td>
               <td class="text-center">{{ libro.lanzamiento }}</td>
-              <td class="text-center">
-                <button type="button" class="btn btn-outline-primary btn-sm me-2" title="Editar" (click)="editar(libro)">
+              <!-- Las acciones de edición y eliminación solo están disponibles para el administrador -->
+              <td class="text-center" *ngIf="esAdmin()">
+                <button type="button" class="btn btn-outline-primary btn-sm me-2" title="Editar"
+                  (click)="editar(libro)">
                   <i class="bi bi-pencil"></i>
                 </button>
-                <button type="button" class="btn btn-outline-danger btn-sm" title="Eliminar" (click)="eliminar(libro.id)">
+                <button type="button" class="btn btn-outline-danger btn-sm" title="Eliminar"
+                  (click)="eliminar(libro.id)">
                   <i class="bi bi-trash"></i>
                 </button>
               </td>
             </tr>
             <tr *ngIf="libros.length == 0">
-              <td colspan="7" class="text-center py-5">
+              <td [attr.colspan]="esAdmin() ? 7 : 6" class="text-center py-5">
                 <i class="bi bi-journal-x fs-1 text-secondary"></i>
                 <p class="mt-3 mb-0 text-muted">No existen libros registrados.</p>
               </td>
@@ -79,7 +80,8 @@
     </div>
   </div>
 
-  <div class="modal fade" [class.show]="mostrarFormulario" [style.display]="mostrarFormulario ? 'block' : 'none'" tabindex="-1" role="dialog" aria-modal="true">
+  <div class="modal fade" [class.show]="mostrarFormulario" [style.display]="mostrarFormulario ? 'block' : 'none'"
+    tabindex="-1" role="dialog" aria-modal="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
       <div class="modal-content">
         <div class="modal-header bg-primary text-white d-flex justify-content-between align-items-center">
@@ -99,7 +101,8 @@
                     <option value="">Seleccione un autor</option>
                     <option *ngFor="let a of autores" [value]="a.id">{{ a.nombreAutor }}</option>
                   </select>
-                  <button type="button" class="btn btn-outline-primary" title="Nuevo Autor" (click)="mostrarAutor=!mostrarAutor">
+                  <button type="button" class="btn btn-outline-primary" title="Nuevo Autor"
+                    (click)="mostrarAutor=!mostrarAutor">
                     <i class="bi bi-plus-lg"></i>
                   </button>
                 </div>
@@ -107,15 +110,18 @@
                   <div class="card-body">
                     <div class="mb-2">
                       <label class="form-label">Nombre del Autor</label>
-                      <input type="text" class="form-control" name="nombreAutorNuevo" [(ngModel)]="autorNuevo.nombreAutor">
+                      <input type="text" class="form-control" name="nombreAutorNuevo"
+                        [(ngModel)]="autorNuevo.nombreAutor">
                     </div>
                     <div class="mb-3">
                       <label class="form-label">Nacionalidad</label>
-                      <input type="text" class="form-control" name="nacionalidadNueva" [(ngModel)]="autorNuevo.nacionalidad">
+                      <input type="text" class="form-control" name="nacionalidadNueva"
+                        [(ngModel)]="autorNuevo.nacionalidad">
                     </div>
                     <div class="d-flex gap-2">
                       <button type="button" class="btn btn-success btn-sm" (click)="guardarAutor()">Guardar</button>
-                      <button type="button" class="btn btn-outline-secondary btn-sm" (click)="mostrarAutor=false">Cancelar</button>
+                      <button type="button" class="btn btn-outline-secondary btn-sm"
+                        (click)="mostrarAutor=false">Cancelar</button>
                     </div>
                   </div>
                 </div>
@@ -127,7 +133,8 @@
                     <option value="">Seleccione una categoría</option>
                     <option *ngFor="let c of categorias" [value]="c.id">{{ c.categoria }}</option>
                   </select>
-                  <button type="button" class="btn btn-outline-primary" title="Nueva Categoría" (click)="mostrarCategoria=!mostrarCategoria">
+                  <button type="button" class="btn btn-outline-primary" title="Nueva Categoría"
+                    (click)="mostrarCategoria=!mostrarCategoria">
                     <i class="bi bi-plus-lg"></i>
                   </button>
                 </div>
@@ -135,11 +142,13 @@
                   <div class="card-body">
                     <div class="mb-3">
                       <label class="form-label">Nueva Categoría</label>
-                      <input type="text" class="form-control" name="categoriaNueva" [(ngModel)]="categoriaNueva.categoria">
+                      <input type="text" class="form-control" name="categoriaNueva"
+                        [(ngModel)]="categoriaNueva.categoria">
                     </div>
                     <div class="d-flex gap-2">
                       <button type="button" class="btn btn-success btn-sm" (click)="guardarCategoria()">Guardar</button>
-                      <button type="button" class="btn btn-outline-secondary btn-sm" (click)="mostrarCategoria=false">Cancelar</button>
+                      <button type="button" class="btn btn-outline-secondary btn-sm"
+                        (click)="mostrarCategoria=false">Cancelar</button>
                     </div>
                   </div>
                 </div>
@@ -161,7 +170,8 @@
               </div>
               <div class="col-md-6">
                 <label class="form-label">Año de Lanzamiento</label>
-                <input type="number" class="form-control" name="lanzamiento" [(ngModel)]="libroEditar.lanzamiento" required>
+                <input type="number" class="form-control" name="lanzamiento" [(ngModel)]="libroEditar.lanzamiento"
+                  required>
               </div>
             </div>
 

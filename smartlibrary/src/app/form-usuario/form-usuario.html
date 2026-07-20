@@ -25,7 +25,8 @@
         <div class="col-md-8">
           <div class="input-group">
             <span class="input-group-text"><i class="bi bi-search"></i></span>
-            <input type="text" class="form-control" placeholder="Buscar usuario..." name="buscar" [(ngModel)]="textoBusqueda">
+            <input type="text" class="form-control" placeholder="Buscar usuario..." name="buscar"
+              [(ngModel)]="textoBusqueda">
           </div>
         </div>
         <div class="col-md-4 text-md-end">
@@ -60,7 +61,8 @@
     </div>
   </div>
 
-  <div class="modal fade" [class.show]="mostrarFormulario" [style.display]="mostrarFormulario ? 'block' : 'none'" tabindex="-1" role="dialog" aria-modal="true">
+  <div class="modal fade" [class.show]="mostrarFormulario" [style.display]="mostrarFormulario ? 'block' : 'none'"
+    tabindex="-1" role="dialog" aria-modal="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
       <div class="modal-content">
         <div class="modal-header bg-primary text-white d-flex justify-content-between align-items-center">
@@ -98,7 +100,6 @@
                 <option value="">Seleccione tipo</option>
                 <option value="ADMIN">ADMIN</option>
                 <option value="CLIENTE">CLIENTE</option>
-                <option value="INVITADO">INVITADO</option>
               </select>
             </div>
             <div class="text-end mt-4">
@@ -115,7 +116,8 @@
     </div>
   </div>
 
-  <div class="modal fade" [class.show]="mostrarPersona" [style.display]="mostrarPersona ? 'block' : 'none'" tabindex="-1" role="dialog" aria-modal="true">
+  <div class="modal fade" [class.show]="mostrarPersona" [style.display]="mostrarPersona ? 'block' : 'none'"
+    tabindex="-1" role="dialog" aria-modal="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header bg-success text-white">
