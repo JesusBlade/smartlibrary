@@ -3,6 +3,7 @@ import { NgForm, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { DemoRest } from '../services/demo-rest.service';
 import { ChangeDetectorRef } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-form-prestamo',
@@ -16,7 +17,9 @@ export class FormPrestamo implements OnInit {
   personas: any[] = [];
   libros: any[] = [];
   prestamos: any[] = [];
-  
+
+  // Variable para controlar el tipo de vista: 'todos', 'vencidos', 'multas'
+  vista: string = 'todos';
 
   mostrarFormulario=false;
   textoBusqueda='';
@@ -24,7 +27,7 @@ export class FormPrestamo implements OnInit {
   idPrestamoEditar=0;
   prestamoEditar:any={};
 
-  constructor(private demoRest: DemoRest, private cdr: ChangeDetectorRef) { }
+  constructor(private demoRest: DemoRest, private cdr: ChangeDetectorRef, private route: ActivatedRoute) { }
 
   // Obtiene el tipo de usuario de la sesión actual
   obtenerTipoUsuario(): string | null {
@@ -41,7 +44,38 @@ export class FormPrestamo implements OnInit {
     return this.obtenerTipoUsuario() === 'CLIENTE';
   }
 
+  // Obtiene el título de la vista actual según el tipo de filtro
+  obtenerTituloVista(): string {
+    if (this.vista === 'vencidos') {
+      return 'Mis Préstamos Vencidos';
+    } else if (this.vista === 'multas') {
+      return 'Mis Multas';
+    } else {
+      return this.esAdmin() ? 'Gestión de Préstamos' : 'Mis Préstamos';
+    }
+  }
+
+  // Obtiene el subtítulo de la vista actual según el tipo de filtro
+  obtenerSubtituloVista(): string {
+    if (this.vista === 'vencidos') {
+      return 'Consulta tus préstamos que han excedido la fecha límite de devolución';
+    } else if (this.vista === 'multas') {
+      return 'Consulta las multas pendientes de pago por préstamos retrasados';
+    } else {
+      return this.esAdmin() ? 'Gestiona los préstamos y devoluciones de la biblioteca' : 'Consulta el estado de tus préstamos personales';
+    }
+  }
+
   ngOnInit() {
+    // Detectar el parámetro de ruta para determinar la vista
+    this.route.params.subscribe(params => {
+      if (params['vista']) {
+        this.vista = params['vista'];
+      } else {
+        this.vista = 'todos';
+      }
+    });
+
     this.cargarUsuarios();
     this.cargarPersonas();
     this.cargarLibros();
@@ -138,16 +172,25 @@ export class FormPrestamo implements OnInit {
     }
   }
   
-  // Filtra los préstamos de acuerdo al texto de búsqueda y restringe según el rol
+  // PROCESO DE NEGOCIO:
+  // CONSULTAR LOS PRÉSTAMOS DEL CLIENTE AUTENTICADO
+  // Obtiene los préstamos filtrados según el tipo de vista y el rol del usuario
   prestamosFiltrados() {
     let prestamosVisibles = this.prestamos;
-    
+
     // Si es un cliente, restringimos la lista para mostrar solo sus propios préstamos
     if (this.esCliente()) {
       const miUsuario = localStorage.getItem('usuario');
       prestamosVisibles = this.prestamos.filter(
         p => this.obtenerUsuario(p.idUsuario) === miUsuario
       );
+    }
+
+    // Aplicar filtro según el tipo de vista
+    if (this.vista === 'vencidos') {
+      prestamosVisibles = this.filtrarPrestamosVencidos(prestamosVisibles);
+    } else if (this.vista === 'multas') {
+      prestamosVisibles = this.filtrarPrestamosConMultas(prestamosVisibles);
     }
 
     if (!this.textoBusqueda) {
@@ -167,6 +210,41 @@ export class FormPrestamo implements OnInit {
         .toLowerCase()
         .includes(texto)
     );
+  }
+
+  // PROCESO DE NEGOCIO:
+  // CONSULTAR PRÉSTAMOS VENCIDOS DEL CLIENTE
+  // Filtra los préstamos activos cuya fecha límite de devolución ya venció
+  filtrarPrestamosVencidos(prestamos: any[]): any[] {
+    const fechaActual = new Date();
+    return prestamos.filter((prestamo: any) => {
+      // Condición: estado = ACTIVO y fecha_devolucion < fecha actual
+      const esActivo = prestamo.estado === 'ACTIVO';
+      const fechaDevolucion = new Date(prestamo.fechaDevolucion);
+      const estaVencido = fechaDevolucion < fechaActual;
+      return esActivo && estaVencido;
+    });
+  }
+
+  // PROCESO DE NEGOCIO:
+  // CONSULTAR MULTAS PENDIENTES DEL CLIENTE
+  // Obtiene los préstamos que tienen multas pendientes de pago (multa > 0)
+  filtrarPrestamosConMultas(prestamos: any[]): any[] {
+    return prestamos.filter((prestamo: any) => {
+      // Condición: multa > 0
+      return prestamo.multa && prestamo.multa > 0;
+    });
+  }
+
+  // PROCESO DE NEGOCIO:
+  // CALCULAR DÍAS DE RETRASO DE UN PRÉSTAMO
+  // Calcula los días de retraso de un préstamo vencido respecto a la fecha actual
+  calcularDiasRetraso(fechaDevolucion: string): number {
+    const fechaLimite = new Date(fechaDevolucion);
+    const fechaActual = new Date();
+    const diferenciaTiempo = fechaActual.getTime() - fechaLimite.getTime();
+    const diasRetraso = Math.ceil(diferenciaTiempo / (1000 * 3600 * 24));
+    return diasRetraso > 0 ? diasRetraso : 0;
   }
   
   

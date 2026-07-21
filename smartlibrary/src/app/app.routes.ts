@@ -13,7 +13,9 @@ export const routes: Routes = [
   { path: 'formpersona', component: FormPersona },
   { path: 'formusuario', component: FormUsuario },
   { path: 'formlibro', component: FormLibro },
+  // Rutas para gestión de préstamos con parámetros para vistas específicas del cliente
   { path: 'formprestamo', component: FormPrestamo },
+  { path: 'formprestamo/:vista', component: FormPrestamo },
   { path: 'formautor', component: FormAutor },
   { path: 'formcategoria', component: FormCategoria }
 ];
