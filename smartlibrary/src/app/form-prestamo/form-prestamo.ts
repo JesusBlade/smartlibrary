@@ -228,11 +228,12 @@ export class FormPrestamo implements OnInit {
 
   // PROCESO DE NEGOCIO:
   // CONSULTAR MULTAS PENDIENTES DEL CLIENTE
-  // Obtiene los préstamos que tienen multas pendientes de pago (multa > 0)
+  // Obtiene los préstamos que tienen multas pendientes de pago (multas reales y estimadas)
   filtrarPrestamosConMultas(prestamos: any[]): any[] {
     return prestamos.filter((prestamo: any) => {
-      // Condición: multa > 0
-      return prestamo.multa && prestamo.multa > 0;
+      const tipoMulta = this.obtenerTipoMulta(prestamo);
+      // Incluir multas reales (devueltas con multa > 0) y multas estimadas (activas y vencidas)
+      return tipoMulta === 'REAL' || tipoMulta === 'ESTIMADA';
     });
   }
 
@@ -245,6 +246,48 @@ export class FormPrestamo implements OnInit {
     const diferenciaTiempo = fechaActual.getTime() - fechaLimite.getTime();
     const diasRetraso = Math.ceil(diferenciaTiempo / (1000 * 3600 * 24));
     return diasRetraso > 0 ? diasRetraso : 0;
+  }
+
+  // PROCESO DE NEGOCIO:
+  // CALCULAR MULTA ESTIMADA PARA PRÉSTAMOS VENCIDOS
+  // Calcula la multa estimada dinámicamente para préstamos activos que ya vencieron
+  // Fórmula: (fecha actual - fecha límite devolución) × S/ 5.00
+  calcularMultaEstimada(fechaDevolucion: string): number {
+    const diasRetraso = this.calcularDiasRetraso(fechaDevolucion);
+    const MULTA_POR_DIA = 5.0;
+    return diasRetraso * MULTA_POR_DIA;
+  }
+
+  // PROCESO DE NEGOCIO:
+  // DETERMINAR EL TIPO DE MULTA (REAL O ESTIMADA)
+  // Determina si la multa es REAL (ya devuelto y guardada en BD) o ESTIMADA (aún activo y vencido)
+  obtenerTipoMulta(prestamo: any): string {
+    // Si el préstamo está devuelto y tiene multa > 0, es una multa REAL
+    if (prestamo.estado === 'DEVUELTO' && prestamo.multa && prestamo.multa > 0) {
+      return 'REAL';
+    }
+    // Si el préstamo está activo, vencido y aún no devuelto, es una multa ESTIMADA
+    if (prestamo.estado === 'ACTIVO') {
+      const fechaDevolucion = new Date(prestamo.fechaDevolucion);
+      const fechaActual = new Date();
+      if (fechaDevolucion < fechaActual) {
+        return 'ESTIMADA';
+      }
+    }
+    return '';
+  }
+
+  // PROCESO DE NEGOCIO:
+  // OBTENER EL MONTO DE MULTA (REAL O ESTIMADA)
+  // Retorna el monto de la multa: si es REAL usa el valor de BD, si es ESTIMADA lo calcula dinámicamente
+  obtenerMontoMulta(prestamo: any): number {
+    const tipoMulta = this.obtenerTipoMulta(prestamo);
+    if (tipoMulta === 'REAL') {
+      return prestamo.multa;
+    } else if (tipoMulta === 'ESTIMADA') {
+      return this.calcularMultaEstimada(prestamo.fechaDevolucion);
+    }
+    return 0;
   }
   
   
