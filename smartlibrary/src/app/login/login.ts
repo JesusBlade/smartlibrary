@@ -49,7 +49,7 @@ export class Login {
             },
             error: (err) => {
               console.error('Error al obtener lista de usuarios:', err);
-              // Fallback seguro en caso de error
+             
               localStorage.setItem('tipoUsuario', 'CLIENTE');
               this.router.navigate(['/formlibro']);
             }
